@@ -2,112 +2,72 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>InstaOrderly – Invoice Generator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<title>InstaOrderly – Invoice Generator</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{
   margin:0;
+  font-family:Arial, sans-serif;
   background:linear-gradient(135deg,#020617,#0f172a);
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
   color:#fff;
 }
-.card{
-  width:100%;
-  max-width:430px;
-  background:rgba(255,255,255,0.06);
-  border-radius:20px;
-  padding:24px;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
+.container{
+  max-width:420px;
+  margin:50px auto;
+  background:#0b1220;
+  padding:25px;
+  border-radius:16px;
 }
-.brand{
+h1{
   text-align:center;
-  font-size:26px;
-  font-weight:800;
-  color:#22c55e;
+  color:#60a5fa;
 }
-.subtitle{
-  text-align:center;
+label{
+  display:block;
+  margin-top:15px;
   font-size:14px;
-  opacity:.85;
-  margin-bottom:18px;
+  color:#cbd5f5;
 }
-label{display:block;font-size:14px;margin-top:12px}
 input,select{
   width:100%;
   padding:12px;
-  border-radius:10px;
+  border-radius:8px;
   border:none;
-  margin-top:6px;
-  font-size:15px;
+  margin-top:5px;
 }
-.product{
-  background:#0f172a;
-  padding:12px;
-  border-radius:12px;
-  margin-top:12px;
-  border:1px solid #1e293b;
-}
-.btn{
+button{
   width:100%;
-  padding:14px;
-  margin-top:14px;
+  padding:15px;
+  margin-top:20px;
   border:none;
-  border-radius:14px;
+  border-radius:10px;
   font-size:16px;
-  font-weight:700;
+  font-weight:bold;
   cursor:pointer;
 }
-.add-btn{background:#1e293b;color:#fff}
-.gen-btn{background:#22c55e;color:#022c22}
-.wa-btn{background:#25D366;color:#022c22}
-.locked{
-  background:#334155;
+.add{
+  background:#1e293b;
+  color:#fff;
+}
+.generate{
+  background:#22c55e;
+  color:#000;
+}
+small{
+  display:block;
+  text-align:center;
+  margin-top:15px;
   color:#94a3b8;
-  cursor:not-allowed;
-}
-.footer{
-  text-align:center;
-  font-size:12px;
-  margin-top:16px;
-  opacity:.7;
-}
-.invoice{
-  display:none;
-  background:#fff;
-  color:#000;
-  border-radius:12px;
-  padding:20px;
-  margin-top:20px;
-}
-.pro-box{
-  background:#fde047;
-  color:#000;
-  padding:14px;
-  border-radius:14px;
-  margin-top:16px;
-  font-size:14px;
-  text-align:center;
-  display:none;
-}
-.pro-box input{
-  margin-top:8px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <div class="brand">InstaOrderly</div>
-  <div class="subtitle">100 invoices FREE – built for Pakistani sellers 🇵🇰</div>
+<div class="container">
+  <h1>Instagram Invoice Generator</h1>
+  <small>100 invoices FREE – built for Pakistani sellers 🇵🇰</small>
 
   <label>Customer Name</label>
   <input id="customer">
@@ -120,109 +80,46 @@ input,select{
     <option>JazzCash</option>
   </select>
 
-  <div id="products"></div>
+  <label>Product Name</label>
+  <input id="product">
 
-  <button class="btn add-btn" onclick="addProduct()">+ Add Product</button>
-  <button class="btn gen-btn" id="pdfBtn" onclick="generateInvoice()">Generate Invoice (PDF)</button>
-  <button class="btn wa-btn" id="waBtn" onclick="sendWhatsApp()">Send via WhatsApp</button>
+  <label>Quantity</label>
+  <input type="number" id="qty" value="1">
 
-  <div class="pro-box" id="proBox">
-    <b>PRO Feature Locked 🔒</b><br>
-    You’ve used 100 free invoices.<br><br>
-    Enter PRO Code:
-    <input id="proCode" placeholder="Enter code">
-    <button onclick="unlockPro()">Unlock PRO</button>
-  </div>
+  <label>Price (PKR)</label>
+  <input type="number" id="price">
 
-  <div class="footer">Invoice generated via InstaOrderly</div>
+  <button class="generate" onclick="generateInvoice()">Generate Invoice</button>
 
-  <div id="invoice" class="invoice">
-    <h2>InstaOrderly Invoice</h2>
-    <p><b>Invoice No:</b> <span id="invNo"></span></p>
-    <p><b>Date:</b> <span id="invDate"></span></p>
-    <p><b>Customer:</b> <span id="invCustomer"></span></p>
-    <p><b>Payment:</b> <span id="invPayment"></span></p>
-    <hr>
-    <div id="invProducts"></div>
-    <hr>
-    <h3>Total: PKR <span id="grandTotal">0</span></h3>
-  </div>
+  <button class="add" onclick="shareWhatsApp()">Share on WhatsApp</button>
+
+  <small>Powered by InstaOrderly™</small>
 </div>
 
 <script>
-let invoiceCount = Number(localStorage.getItem("insta_inv_count") || 0);
-let isPro = localStorage.getItem("insta_pro") === "yes";
-
-function addProduct(){
-  const div=document.createElement("div");
-  div.className="product";
-  div.innerHTML=`
-    <label>Product Name</label>
-    <input class="pname">
-    <label>Quantity</label>
-    <input class="pqty" type="number" value="1">
-    <label>Price (PKR)</label>
-    <input class="pprice" type="number">
-  `;
-  document.getElementById("products").appendChild(div);
-}
-addProduct();
-
 function generateInvoice(){
-  if(!isPro && invoiceCount >= 100){
-    lockPro();
-    return;
-  }
+  const c = customer.value || "Customer";
+  const p = product.value || "Product";
+  const q = Number(qty.value);
+  const pr = Number(price.value);
+  const total = q * pr;
 
-  invoiceCount++;
-  localStorage.setItem("insta_inv_count", invoiceCount);
+  localStorage.setItem("invoice", JSON.stringify({
+    customer:c,
+    product:p,
+    qty:q,
+    price:pr,
+    total:total,
+    payment:payment.value,
+    date:new Date().toLocaleDateString()
+  }));
 
-  document.getElementById("invoice").style.display="block";
-  document.getElementById("invNo").innerText="INV-"+invoiceCount;
-  document.getElementById("invDate").innerText=new Date().toLocaleDateString();
-  document.getElementById("invCustomer").innerText=document.getElementById("customer").value || "-";
-  document.getElementById("invPayment").innerText=document.getElementById("payment").value;
-
-  let total=0, html="";
-  document.querySelectorAll(".product").forEach(p=>{
-    const n=p.querySelector(".pname").value || "-";
-    const q=Number(p.querySelector(".pqty").value);
-    const pr=Number(p.querySelector(".pprice").value);
-    const sub=q*pr;
-    total+=sub;
-    html+=<p>${n} — ${q} × ${pr} = PKR ${sub}</p>;
-  });
-  document.getElementById("invProducts").innerHTML=html;
-  document.getElementById("grandTotal").innerText=total;
-
-  html2pdf().from(document.getElementById("invoice")).save("InstaOrderly-Invoice.pdf");
+  window.location.href="thankyou.html";
 }
 
-function sendWhatsApp(){
-  if(!isPro && invoiceCount >= 100){
-    lockPro();
-    return;
-  }
-  const msg=Invoice from InstaOrderly\nTotal: PKR ${document.getElementById("grandTotal").innerText};
-  window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
-}
-
-function lockPro(){
-  document.getElementById("proBox").style.display="block";
-  document.getElementById("pdfBtn").classList.add("locked");
-  document.getElementById("waBtn").classList.add("locked");
-}
-
-function unlockPro(){
-  if(document.getElementById("proCode").value==="INSTA-PRO-2026"){
-    localStorage.setItem("insta_pro","yes");
-    isPro=true;
-    document.getElementById("proBox").innerHTML="✅ PRO Activated – Thank you!";
-    document.getElementById("pdfBtn").classList.remove("locked");
-    document.getElementById("waBtn").classList.remove("locked");
-  } else {
-    alert("Invalid PRO code");
-  }
+function shareWhatsApp(){
+  const text = encodeURIComponent("Invoice generated via InstaOrderly");
+  window.open("https://wa.me/?text="+text);
 }
 </script>
 
