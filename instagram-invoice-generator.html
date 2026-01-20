@@ -1,127 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InstaOrderly – Invoice Generator</title>
+  <meta charset="UTF-8">
+  <title>Instagram Invoice Generator – InstaOrderly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,#020617,#0f172a);
-  color:#fff;
-}
-.container{
-  max-width:420px;
-  margin:50px auto;
-  background:#0b1220;
-  padding:25px;
-  border-radius:16px;
-}
-h1{
-  text-align:center;
-  color:#60a5fa;
-}
-label{
-  display:block;
-  margin-top:15px;
-  font-size:14px;
-  color:#cbd5f5;
-}
-input,select{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:none;
-  margin-top:5px;
-}
-button{
-  width:100%;
-  padding:15px;
-  margin-top:20px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.add{
-  background:#1e293b;
-  color:#fff;
-}
-.generate{
-  background:#22c55e;
-  color:#000;
-}
-small{
-  display:block;
-  text-align:center;
-  margin-top:15px;
-  color:#94a3b8;
-}
-</style>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #050d1f, #0a1a3a);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.05);
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 5px;
+      color: #4da3ff;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 16px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .generate {
+      background: #22c55e;
+      color: #000;
+    }
+
+    .whatsapp {
+      background: #1f2937;
+      color: #fff;
+      display: none;
+    }
+
+    .invoice-box {
+      display: none;
+      margin-top: 25px;
+      background: rgba(0,0,0,0.4);
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    .invoice-box h2 {
+      margin-top: 0;
+      color: #22c55e;
+    }
+
+    .invoice-line {
+      margin: 6px 0;
+      font-size: 15px;
+    }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Instagram Invoice Generator</h1>
-  <small>100 invoices FREE – built for Pakistani sellers 🇵🇰</small>
+  <div class="container">
+    <h1>Instagram Invoice Generator</h1>
+    <div class="subtitle">
+      100 invoices FREE – built for Pakistani sellers 🇵🇰
+    </div>
 
-  <label>Customer Name</label>
-  <input id="customer">
+    <!-- FORM -->
+    <label>Customer Name</label>
+    <input type="text" id="customer" placeholder="Customer name">
 
-  <label>Payment Method</label>
-  <select id="payment">
-    <option>Cash on Delivery</option>
-    <option>Bank Transfer</option>
-    <option>EasyPaisa</option>
-    <option>JazzCash</option>
-  </select>
+    <label>Payment Method</label>
+    <select id="payment">
+      <option>Cash on Delivery</option>
+      <option>Bank Transfer</option>
+      <option>EasyPaisa</option>
+      <option>JazzCash</option>
+    </select>
 
-  <label>Product Name</label>
-  <input id="product">
+    <label>Product Name</label>
+    <input type="text" id="product" placeholder="Product name">
 
-  <label>Quantity</label>
-  <input type="number" id="qty" value="1">
+    <label>Quantity</label>
+    <input type="number" id="qty" value="1" min="1">
 
-  <label>Price (PKR)</label>
-  <input type="number" id="price">
+    <label>Price (PKR)</label>
+    <input type="number" id="price" placeholder="Enter price">
 
-  <button class="generate" onclick="generateInvoice()">Generate Invoice</button>
+    <button class="generate" type="button" onclick="generateInvoice()">
+      Generate Invoice
+    </button>
 
-  <button class="add" onclick="shareWhatsApp()">Share on WhatsApp</button>
+    <!-- INVOICE PREVIEW -->
+    <div class="invoice-box" id="invoiceBox">
+      <h2>Invoice</h2>
 
-  <small>Powered by InstaOrderly™</small>
-</div>
+      <div class="invoice-line"><strong>Customer:</strong> <span id="invCustomer"></span></div>
+      <div class="invoice-line"><strong>Product:</strong> <span id="invProduct"></span></div>
+      <div class="invoice-line"><strong>Quantity:</strong> <span id="invQty"></span></div>
+      <div class="invoice-line"><strong>Payment:</strong> <span id="invPayment"></span></div>
+      <div class="invoice-line"><strong>Price:</strong> PKR <span id="invPrice"></span></div>
 
-<script>
-function generateInvoice(){
-  const c = customer.value || "Customer";
-  const p = product.value || "Product";
-  const q = Number(qty.value);
-  const pr = Number(price.value);
-  const total = q * pr;
+      <div class="total">
+        Total: PKR <span id="invTotal"></span>
+      </div>
+    </div>
 
-  localStorage.setItem("invoice", JSON.stringify({
-    customer:c,
-    product:p,
-    qty:q,
-    price:pr,
-    total:total,
-    payment:payment.value,
-    date:new Date().toLocaleDateString()
-  }));
+    <button class="whatsapp" id="waBtn" onclick="shareWhatsApp()">
+      Share on WhatsApp
+    </button>
 
-  window.location.href="thankyou.html";
-}
+    <div class="footer">
+      Powered by <strong>InstaOrderly™</strong>
+    </div>
+  </div>
 
-function shareWhatsApp(){
-  const text = encodeURIComponent("Invoice generated via InstaOrderly");
-  window.open("https://wa.me/?text="+text);
-}
-</script>
+  <!-- SCRIPT -->
+  <script>
+    function generateInvoice() {
+      const customer = document.getElementById("customer").value || "Customer";
+      const product = document.getElementById("product").value || "-";
+      const qty = Number(document.getElementById("qty").value);
+      const price = Number(document.getElementById("price").value);
+      const payment = document.getElementById("payment").value;
+
+      if (!price || price <= 0) {
+        alert("Please enter valid price");
+        return;
+      }
+
+      const total = qty * price;
+
+      document.getElementById("invCustomer").innerText = customer;
+      document.getElementById("invProduct").innerText = product;
+      document.getElementById("invQty").innerText = qty;
+      document.getElementById("invPrice").innerText = price;
+      document.getElementById("invPayment").innerText = payment;
+      document.getElementById("invTotal").innerText = total;
+
+      document.getElementById("invoiceBox").style.display = "block";
+      document.getElementById("waBtn").style.display = "block";
+    }
+
+    function shareWhatsApp() {
+      const text =
+`📄 Invoice – InstaOrderly
+
+Customer: ${document.getElementById("invCustomer").innerText}
+Product: ${document.getElementById("invProduct").innerText}
+Quantity: ${document.getElementById("invQty").innerText}
+Payment: ${document.getElementById("invPayment").innerText}
+Total: PKR ${document.getElementById("invTotal").innerText}
+
+Thank you for your order 🙏`;
+
+      const url = "https://wa.me/?text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
+    }
+  </script>
 
 </body>
 </html>
