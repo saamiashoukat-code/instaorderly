@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instagram Invoice Generator | InstaOrderly</title>
+<title>Instagram Invoice Generator | InstaOrderly™</title>
 
+<!-- PDF Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 body{
   margin:0;
   font-family:Arial, Helvetica, sans-serif;
-  background:linear-gradient(135deg,#020617,#020617);
+  background:linear-gradient(135deg,#020617,#0f172a);
   color:#fff;
   display:flex;
   justify-content:center;
@@ -20,24 +21,24 @@ body{
 }
 
 .card{
+  width:100%;
+  max-width:420px;
   background:#020617;
   border-radius:16px;
   padding:24px;
-  width:100%;
-  max-width:420px;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
 
 h1{
   text-align:center;
-  color:#4da3ff;
+  color:#60a5fa;
   margin-bottom:6px;
 }
 
 .subtitle{
   text-align:center;
   font-size:14px;
-  opacity:.8;
+  opacity:.85;
   margin-bottom:20px;
 }
 
@@ -64,12 +65,12 @@ button{
   font-size:15px;
   margin-top:14px;
   cursor:pointer;
+  font-weight:bold;
 }
 
 .generate{
   background:#22c55e;
   color:#000;
-  font-weight:bold;
 }
 
 .secondary{
@@ -95,7 +96,7 @@ button{
   text-align:center;
   font-size:12px;
   margin-top:16px;
-  opacity:.6;
+  opacity:.7;
 }
 </style>
 </head>
@@ -114,26 +115,25 @@ button{
 <select id="payment">
   <option>Cash on Delivery</option>
   <option>Bank Transfer</option>
-  <option>JazzCash</option>
   <option>EasyPaisa</option>
+  <option>JazzCash</option>
 </select>
 
 <label>Product Name</label>
 <input id="product" placeholder="Product name">
 
 <label>Quantity</label>
-<input id="qty" type="number" value="1">
+<input id="qty" type="number" value="1" min="1">
 
 <label>Price (PKR)</label>
 <input id="price" type="number" placeholder="e.g. 5000">
 
 <button class="generate" onclick="generateInvoice()">Generate Invoice</button>
-
 <button class="secondary" onclick="shareWhatsApp()">Share on WhatsApp</button>
 <button class="secondary" onclick="downloadPDF()">Download PDF</button>
 
 <div class="invoice" id="invoiceBox">
-  <h3>Invoice Created 🎉</h3>
+  <h3>Invoice</h3>
   <p><b>Customer:</b> <span id="invCustomer"></span></p>
   <p><b>Product:</b> <span id="invProduct"></span></p>
   <p><b>Quantity:</b> <span id="invQty"></span></p>
@@ -143,7 +143,7 @@ button{
   <p><b>Total:</b> PKR <span id="invTotal"></span></p>
 </div>
 
-<p class="footer">Powered by InstaOrderly™</p>
+<p class="footer">Powered by <b>InstaOrderly™</b></p>
 
 </div>
 
@@ -155,26 +155,34 @@ function generateInvoice(){
   const price=parseInt(document.getElementById("price").value) || 0;
   const payment=document.getElementById("payment").value;
 
+  if(price<=0){
+    alert("Please enter valid price");
+    return;
+  }
+
   const total=qty*price;
 
-  document.getElementById("invCustomer").innerText=customer;
-  document.getElementById("invProduct").innerText=product;
-  document.getElementById("invQty").innerText=qty;
-  document.getElementById("invPayment").innerText=payment;
-  document.getElementById("invPrice").innerText=price;
-  document.getElementById("invTotal").innerText=total;
+  invCustomer.innerText=customer;
+  invProduct.innerText=product;
+  invQty.innerText=qty;
+  invPayment.innerText=payment;
+  invPrice.innerText=price;
+  invTotal.innerText=total;
 
   document.getElementById("invoiceBox").style.display="block";
 }
 
 function shareWhatsApp(){
   const text=
-`InstaOrderly Invoice
+`📄 InstaOrderly Invoice
+
 Customer: ${invCustomer.innerText}
 Product: ${invProduct.innerText}
-Qty: ${invQty.innerText}
+Quantity: ${invQty.innerText}
 Payment: ${invPayment.innerText}
-Total: PKR ${invTotal.innerText}`;
+Total: PKR ${invTotal.innerText}
+
+Powered by InstaOrderly™`;
 
   window.open("https://wa.me/?text="+encodeURIComponent(text));
 }
@@ -183,23 +191,38 @@ function downloadPDF(){
   const { jsPDF } = window.jspdf;
   const doc=new jsPDF();
 
-  doc.setFontSize(16);
-  doc.text("InstaOrderly Invoice",20,20);
+  const logo=new Image();
+  logo.src="logo.png";
 
-  doc.setFontSize(12);
-  doc.text("Customer: "+invCustomer.innerText,20,40);
-  doc.text("Product: "+invProduct.innerText,20,50);
-  doc.text("Quantity: "+invQty.innerText,20,60);
-  doc.text("Payment: "+invPayment.innerText,20,70);
-  doc.text("Price: PKR "+invPrice.innerText,20,80);
+  logo.onload=function(){
+    doc.addImage(logo,"PNG",20,10,30,30);
 
-  doc.setFontSize(14);
-  doc.text("Total: PKR "+invTotal.innerText,20,100);
+    doc.setFontSize(18);
+    doc.text("InstaOrderly™",60,22);
+    doc.setFontSize(11);
+    doc.text("Instagram Invoice Generator",60,30);
 
-  doc.setFontSize(10);
-  doc.text("Powered by InstaOrderly™",20,120);
+    doc.line(20,45,190,45);
 
-  doc.save("invoice.pdf");
+    doc.setFontSize(12);
+    doc.text("Customer: "+invCustomer.innerText,20,60);
+    doc.text("Product: "+invProduct.innerText,20,70);
+    doc.text("Quantity: "+invQty.innerText,20,80);
+    doc.text("Payment: "+invPayment.innerText,20,90);
+    doc.text("Price: PKR "+invPrice.innerText,20,100);
+
+    doc.setFontSize(14);
+    doc.text("Total: PKR "+invTotal.innerText,20,120);
+
+    doc.setFontSize(10);
+    doc.text(
+      "Powered by InstaOrderly™ | Create invoices instantly for Instagram sellers",
+      20,
+      140
+    );
+
+    doc.save("InstaOrderly-Invoice.pdf");
+  };
 }
 </script>
 
