@@ -2,88 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About InstaOrderly</title>
+  <title>About | InstaOrderly</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body{
-      
       font-family: Arial, sans-serif;
       background:#0f0f0f;
       color:#ffffff;
       margin:0;
-      padding-top:70px;
+      padding-top:70px; /* space for fixed navbar */
     }
-    .container{
-      max-width:800px;
-      margin:auto;
+
+    /* NAVBAR */
+    .navbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:15px 25px;
+      background:#0f0f0f;
+      border-bottom:1px solid #222;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:1000;
     }
-    h1,h2{
-      color:#00e6a8;
+
+    .nav-logo{
+      color:#00e5ff;
+      font-size:18px;
+      font-weight:bold;
     }
-    p{
-      line-height:1.6;
-      opacity:0.9;
-    }
-    a{
-      color:#00e6a8;
+
+    .nav-links a{
+      color:#ffffff;
       text-decoration:none;
+      margin-left:20px;
+      font-weight:500;
     }
+
     .nav-links a.active{
       color:#00e5ff;
     }
+
+    /* CONTENT */
+    .container{
+      max-width:800px;
+      margin:40px auto;
+      padding:20px;
+    }
+
+    h1, h2{
+      color:#00e5ff;
+    }
+
+    p{
+      line-height:1.7;
+      opacity:0.9;
+    }
+
+    .box{
+      background:#1c1c1c;
+      padding:20px;
+      border-radius:10px;
+      margin-top:20px;
+    }
   </style>
 </head>
+
 <body>
+
+  <!-- NAVBAR -->
   <nav class="navbar">
-  <div class="nav-logo">InstaOrderly</div>
+    <div class="nav-logo">InstaOrderly</div>
 
-  <div class="nav-links">
-    <a href="index.html">Tool</a>
-    <a href="about.html" class="active" >About</a>
-    <a href="contact.html">Contact</a>
-  </div>
-</nav>
+    <div class="nav-links">
+      <a href="index.html">Tool</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
 
+  <!-- ABOUT CONTENT -->
   <div class="container">
     <h1>About InstaOrderly</h1>
 
     <p>
-      InstaOrderly is a simple SaaS tool built for Instagram sellers,
-      freelancers, and small businesses in Pakistan who want to create
-      clean, professional invoices in seconds.
+      InstaOrderly is a simple and powerful Instagram Invoice Generator
+      built for online sellers, small businesses, and resellers.
     </p>
 
-    <h2>Why InstaOrderly Exists</h2>
-    <p>
-      Many sellers struggle with messy invoice screenshots, manual
-      calculations, and unprofessional formats. InstaOrderly solves
-      this problem with a clean, fast, and mobile-friendly invoice
-      generator.
-    </p>
+    <div class="box">
+      <h2>Why InstaOrderly?</h2>
+      <p>
+        Many Instagram sellers struggle to create clean and professional invoices.
+        InstaOrderly solves this problem by providing a fast, no-login, and
+        free invoice generator designed specifically for PKR-based businesses.
+      </p>
+    </div>
 
-    <h2>What You Can Do</h2>
-    <p>
-      • Generate invoices in PKR<br>
-      • Create instant PDF invoices<br>
-      • Use on mobile & desktop<br>
-      • Share directly with customers
-    </p>
+    <div class="box">
+      <h2>What You Can Do</h2>
+      <p>
+        • Create clean invoices in seconds<br>
+        • Use PKR currency<br>
+        • No logo & no signup required<br>
+        • Download & share instantly
+      </p>
+    </div>
 
-    <h2>Who It’s For</h2>
-    <p>
-      Instagram sellers, freelancers, online service providers,
-      and small businesses.
-    </p>
-
-    <h2>Our Vision</h2>
-    <p>
-      To make order management and invoicing effortless for social
-      sellers — starting with a free invoice generator.
-    </p>
-
-    <p>
-      👉 <a href="index.html">Try the Invoice Generator</a>
-    </p>
+    <div class="box">
+      <h2>Our Mission</h2>
+      <p>
+        Our mission is to help small sellers look professional,
+        build trust with customers, and save time on daily operations.
+      </p>
+    </div>
   </div>
 
 </body>
