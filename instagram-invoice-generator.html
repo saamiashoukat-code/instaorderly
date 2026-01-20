@@ -28,30 +28,96 @@ box-shadow:0 20px 60px rgba(0,0,0,.6);
 h1{text-align:center;color:#60a5fa;margin:0}
 .sub{text-align:center;font-size:14px;opacity:.85;margin-bottom:16px}
 label{font-size:13px;margin-top:12px;display:block}
+in…
+[2:42 AM, 1/21/2026] Sammo: https://saamiashoukat-code.github.io/instaorderly/instagram-invoice-generator.html
+[2:50 AM, 1/21/2026] Sammo: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Instagram Invoice Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- PDF LIB -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{
+margin:0;
+background:linear-gradient(135deg,#0b1020,#0f1c3f);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+color:#fff;
+padding:20px
+}
+.card{
+width:100%;
+max-width:420px;
+background:rgba(255,255,255,0.08);
+border-radius:18px;
+padding:22px;
+backdrop-filter:blur(10px)
+}
+h1{
+text-align:center;
+margin-bottom:5px;
+color:#4ea4ff
+}
+.subtitle{
+text-align:center;
+font-size:14px;
+opacity:.9;
+margin-bottom:18px
+}
+label{font-size:14px;margin-top:10px;display:block}
 input,select{
-width:100%;padding:12px;border-radius:10px;border:none;margin-top:6px;font-size:14px
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+margin-top:6px;
+font-size:15px
 }
-button{
-width:100%;padding:14px;border:none;border-radius:12px;margin-top:14px;font-size:15px;font-weight:600
+.product{
+margin-top:10px;
+background:rgba(255,255,255,0.08);
+padding:10px;
+border-radius:10px
 }
-.primary{background:#22c55e;color:#022c22}
-.secondary{background:#1e293b;color:#fff}
-.whatsapp{background:#25D366;color:#022c22;display:none}
-.product{background:#0f172a;padding:12px;border-radius:10px;margin-top:10px}
-.invoice{display:none;background:#fff;color:#000;border-radius:12px;padding:18px;margin-top:20px}
-.pro{background:#fde047;color:#000;padding:10px;border-radius:10px;margin-top:14px;font-size:13px;text-align:center}
-.footer{text-align:center;font-size:12px;opacity:.6;margin-top:14px}
+.btn{
+width:100%;
+padding:14px;
+margin-top:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+cursor:pointer
+}
+.add-btn{background:#243a6b;color:#fff}
+.gen-btn{background:#22c55e;color:#000;font-weight:bold}
+.wa-btn{background:#25D366;color:#000;font-weight:bold}
+.footer{text-align:center;font-size:12px;margin-top:14px;opacity:.7}
+.invoice{
+background:#fff;
+color:#000;
+padding:20px;
+border-radius:10px;
+margin-top:20px;
+display:none
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
 <h1>Instagram Invoice Generator</h1>
-<p class="sub">100 invoices FREE – built for Pakistani sellers 🇵🇰</p>
+<div class="subtitle">100 invoices FREE – built for Pakistani sellers 🇵🇰</div>
 
 <label>Customer Name</label>
-<input id="customer">
+<input id="customer" placeholder="Customer name">
 
 <label>Payment Method</label>
 <select id="payment">
@@ -63,84 +129,89 @@ width:100%;padding:14px;border:none;border-radius:12px;margin-top:14px;font-size
 
 <div id="products"></div>
 
-<button class="secondary" onclick="addProduct()">+ Add Product</button>
-<button class="primary" onclick="generateInvoice()">Generate Invoice</button>
-<button class="whatsapp" id="waBtn" onclick="sendWhatsApp()">Send via WhatsApp</button>
-
-<div class="invoice" id="invoice"></div>
-
-<div class="pro" id="proBox" style="display:none">
-⚠️ You’ve used <b>100 free invoices</b><br>
-Upgrade to PRO for unlimited invoices<br><br>
-<input id="proCode" placeholder="Enter PRO code">
-<button onclick="unlockPro()">Unlock PRO</button>
-</div>
+<button class="btn add-btn" onclick="addProduct()">+ Add Product</button>
+<button class="btn gen-btn" onclick="generateInvoice()">Generate Invoice</button>
+<button class="btn wa-btn" onclick="sendWhatsApp()">Send via WhatsApp</button>
 
 <div class="footer">Powered by InstaOrderly</div>
+
+<!-- INVOICE -->
+<div id="invoice" class="invoice">
+<h2>Invoice</h2>
+<p><b>Invoice No:</b> <span id="invNo"></span></p>
+<p><b>Date:</b> <span id="invDate"></span></p>
+<p><b>Customer:</b> <span id="invCustomer"></span></p>
+<p><b>Payment:</b> <span id="invPayment"></span></p>
+<hr>
+<div id="invProducts"></div>
+<hr>
+<h3>Total: PKR <span id="grandTotal">0</span></h3>
+</div>
+
 </div>
 
 <script>
-let products=[];
-let isPro=localStorage.getItem("pro")==="yes";
-let invoiceCount=parseInt(localStorage.getItem("invoiceCount")||"0");
-let lastMsg="";
+let invoiceCount = 0;
 
 function addProduct(){
-products.push({name:"",qty:1,price:0});
-renderProducts();
+const div=document.createElement("div");
+div.className="product";
+div.innerHTML=`
+<label>Product Name</label>
+<input class="pname" placeholder="Product">
+
+<label>Quantity</label>
+<input class="pqty" type="number" value="1">
+
+<label>Price (PKR)</label>
+<input class="pprice" type="number" placeholder="0">
+`;
+document.getElementById("products").appendChild(div);
 }
 
-function renderProducts(){
-const div=document.getElementById("products");
-div.innerHTML="";
-products.forEach((p,i)=>{
-div.innerHTML+=`
-<div class="product">
-<input placeholder="Product name" oninput="products[${i}].name=this.value">
-<input type="number" placeholder="Qty" value="1" oninput="products[${i}].qty=parseInt(this.value)||1">
-<input type="number" placeholder="Price PKR" oninput="products[${i}].price=parseFloat(this.value)||0">
-</div>`;
-});
-}
+addProduct(); // first product auto
 
 function generateInvoice(){
-if(!isPro && invoiceCount>=100){
-document.getElementById("proBox").style.display="block";
-alert("You’ve reached the 100 free invoices limit");
-return;
-}
+invoiceCount++;
+document.getElementById("invoice").style.display="block";
+
+const invNo="INV-"+Math.floor(100000+Math.random()*900000);
+document.getElementById("invNo").innerText=invNo;
+document.getElementById("invDate").innerText=new Date().toLocaleDateString();
+document.getElementById("invCustomer").innerText=document.getElementById("customer").value || "-";
+document.getElementById("invPayment").innerText=document.getElementById("payment").value;
 
 let total=0;
-let html=<h3>Invoice</h3>;
-products.forEach(p=>{
-total+=p.qty*p.price;
-html+=<p>${p.name} × ${p.qty} = PKR ${p.qty*p.price}</p>;
+let html="";
+document.querySelectorAll(".product").forEach(p=>{
+const name=p.querySelector(".pname").value;
+const qty=Number(p.querySelector(".pqty").value);
+const price=Number(p.querySelector(".pprice").value);
+const sub=qty*price;
+total+=sub;
+html+=<p>${name} — ${qty} × ${price} = PKR ${sub}</p>;
 });
-html+=<hr><strong>Total: PKR ${total}</strong>;
+document.getElementById("invProducts").innerHTML=html;
+document.getElementById("grandTotal").innerText=total;
 
-document.getElementById("invoice").innerHTML=html;
-document.getElementById("invoice").style.display="block";
-document.getElementById("waBtn").style.display="block";
-
-invoiceCount++;
-localStorage.setItem("invoiceCount",invoiceCount);
-
-lastMsg=Invoice from InstaOrderly\nTotal: PKR ${total};
+html2pdf().from(document.getElementById("invoice")).save();
 }
 
 function sendWhatsApp(){
-window.open("https://wa.me/?text="+encodeURIComponent(lastMsg));
-}
+const total=document.getElementById("grandTotal").innerText;
+const inv=document.getElementById("invNo").innerText;
+const customer=document.getElementById("customer").value || "Customer";
 
-function unlockPro(){
-if(document.getElementById("proCode").value==="INSTA2026"){
-localStorage.setItem("pro","yes");
-isPro=true;
-document.getElementById("proBox").innerHTML="✅ PRO unlocked – Unlimited invoices";
-}
-}
+const msg=`Assalam o Alaikum ${customer},
 
-addProduct();
+Your invoice ${inv} is ready.
+Total Amount: PKR ${total}
+
+Please find the invoice PDF attached.
+Thank you for ordering via InstaOrderly.`;
+
+window.open("https://wa.me/?text="+encodeURIComponent(msg));
+}
 </script>
 
 </body>
