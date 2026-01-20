@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact – InstaOrderly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#0f0f0f;
+      color:#fff;
+      padding:20px;
+    }
+
+    a{
+      color:#00e5ff;
+      text-decoration:none;
+      font-weight:bold;
+      display:inline-block;
+      margin-bottom:20px;
+    }
+
+    .container{
+      max-width:520px;
+      margin:auto;
+      background:#1c1c1c;
+      padding:25px;
+      border-radius:10px;
+    }
+
+    h1{
+      margin-bottom:10px;
+    }
+
+    p{
+      color:#ccc;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:10px;
+      margin-top:10px;
+      background:#2a2a2a;
+      border:none;
+      border-radius:5px;
+      color:#fff;
+    }
+
+    button{
+      width:100%;
+      margin-top:15px;
+      padding:12px;
+      background:#00c897;
+      border:none;
+      border-radius:5px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    small{
+      display:block;
+      margin-top:15px;
+      color:#aaa;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="index.html">← Back to Tool</a>
+
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>
+      Have a question, feedback, or feature request?  
+      Fill the form below and we’ll get back to you.
+    </p>
+
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message"></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <small>
+      © 2026 InstaOrderly · Built for Instagram sellers
+    </small>
+  </div>
+
+</body>
+</html>
