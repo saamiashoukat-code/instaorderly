@@ -1,87 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>InstaOrderly – Instagram Invoice Generator</title>
-  <style>
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:linear-gradient(135deg,#0f172a,#020617);
-      color:#fff;
-    }
-    nav{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:15px 25px;
-    }
-    nav img{height:40px}
-    nav a{
-      color:#cbd5f5;
-      margin-left:20px;
-      text-decoration:none;
-      font-weight:500;
-    }
-    .hero{
-      text-align:center;
-      padding:80px 20px;
-      max-width:900px;
-      margin:auto;
-    }
-    .hero h1{
-      font-size:42px;
-      color:#60a5fa;
-    }
-    .hero p{
-      font-size:18px;
-      color:#cbd5f5;
-      margin:20px 0;
-    }
-    .btn{
-      display:inline-block;
-      background:#22c55e;
-      color:#000;
-      padding:15px 30px;
-      border-radius:10px;
-      font-weight:bold;
-      text-decoration:none;
-      margin-top:20px;
-    }
-    footer{
-      text-align:center;
-      padding:30px;
-      color:#94a3b8;
-      font-size:14px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InstaOrderly™ – Instagram Invoice Generator</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(135deg,#020617,#0f172a);
+  color:#fff;
+}
+
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 24px;
+  position:sticky;
+  top:0;
+  background:rgba(2,6,23,0.9);
+  backdrop-filter:blur(10px);
+}
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.nav-left img{
+  height:38px;
+}
+.nav-left span{
+  font-size:20px;
+  font-weight:bold;
+  color:#22c55e;
+}
+.nav-right a{
+  color:#cbd5f5;
+  text-decoration:none;
+  margin-left:18px;
+  font-size:14px;
+}
+.nav-right a:hover{
+  color:#22c55e;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:90px 20px;
+  max-width:900px;
+  margin:auto;
+}
+.hero h1{
+  font-size:42px;
+  color:#60a5fa;
+}
+.hero p{
+  font-size:18px;
+  color:#cbd5f5;
+  margin:20px 0;
+}
+.cta{
+  display:inline-block;
+  margin-top:25px;
+  background:#22c55e;
+  color:#000;
+  padding:16px 34px;
+  border-radius:12px;
+  font-weight:bold;
+  text-decoration:none;
+  font-size:16px;
+}
+
+/* FEATURES */
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  max-width:1000px;
+  margin:60px auto;
+  padding:0 20px;
+}
+.feature{
+  background:#020617;
+  padding:24px;
+  border-radius:16px;
+  border:1px solid #1e293b;
+}
+.feature h3{
+  color:#22c55e;
+  margin-top:0;
+}
+.feature p{
+  color:#cbd5f5;
+  font-size:14px;
+}
+
+/* FREE BADGE */
+.badge{
+  background:#22c55e;
+  color:#000;
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px 20px;
+  font-size:14px;
+  color:#94a3b8;
+  border-top:1px solid #1e293b;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .hero h1{
+    font-size:32px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-<nav>
-  <img src="logo.png" alt="InstaOrderly">
-  <div>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="InstaOrderly Logo">
+    <span>InstaOrderly™</span>
+  </div>
+  <div class="nav-right">
     <a href="index.html">Home</a>
     <a href="instagram-invoice-generator.html">Tool</a>
-    <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
+  <div class="badge">100 invoices FREE 🇵🇰</div>
   <h1>Instagram Invoice Generator</h1>
   <p>
     Create professional invoices for Instagram orders in seconds.  
-    <br>100 invoices FREE — built for Pakistani sellers 🇵🇰
+    No Excel. No confusion. Built for Pakistani sellers.
   </p>
-  <a class="btn" href="instagram-invoice-generator.html">
+  <a class="cta" href="instagram-invoice-generator.html">
     Start Generating Invoice
   </a>
 </section>
 
+<!-- FEATURES -->
+<section class="features">
+  <div class="feature">
+    <h3>⚡ Instant Invoices</h3>
+    <p>
+      Generate clean invoices in seconds directly from your phone or laptop.
+    </p>
+  </div>
+
+  <div class="feature">
+    <h3>📱 Mobile Friendly</h3>
+    <p>
+      Designed for Instagram sellers who work mostly on mobile.
+    </p>
+  </div>
+
+  <div class="feature">
+    <h3>💬 WhatsApp Ready</h3>
+    <p>
+      Share invoice details instantly on WhatsApp with one click.
+    </p>
+  </div>
+
+  <div class="feature">
+    <h3>🧾 PDF Download</h3>
+    <p>
+      Download professional invoice PDFs for your customers.
+    </p>
+  </div>
+
+  <div class="feature">
+    <h3>🇵🇰 Built for Pakistan</h3>
+    <p>
+      PKR currency, local payment methods, simple language.
+    </p>
+  </div>
+
+  <div class="feature">
+    <h3>🚀 Free to Start</h3>
+    <p>
+      100 invoices free. Upgrade to Pro only when you grow.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 InstaOrderly™ – Powered for Pakistani Sellers
+  © 2026 InstaOrderly™ · From DM to Invoice — instantly.
 </footer>
 
 </body>
