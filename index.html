@@ -1,180 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>InstaOrderly – Instagram Order & Invoice Tool</title>
+<meta charset="UTF-8">
+<title>Instagram Invoice Generator (PKR) – InstaOrderly</title>
+<meta name="description" content="Free Instagram Invoice Generator for sellers in Pakistan. Create professional invoices in PKR with auto invoice number and date.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO -->
-  <meta name="description" content="InstaOrderly is a free Instagram order and invoice generator tool for small businesses and online sellers." />
-  <meta name="keywords" content="instagram invoice generator, instagram order tool, invoice tool, small business tools" />
-  <meta name="author" content="InstaOrderly" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0f172a;
-      color: #ffffff;
-      line-height: 1.6;
-    }
-
-    header {
-      padding: 80px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #020617, #020617);
-    }
-
-    header h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 18px;
-      color: #cbd5f5;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 14px 28px;
-      background: #22c55e;
-      color: #000;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 6px;
-    }
-
-    section {
-      padding: 80px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-
-    .card {
-      background: #020617;
-      padding: 30px;
-      border-radius: 10px;
-      border: 1px solid #1e293b;
-    }
-
-    .card h3 {
-      margin-top: 0;
-      color: #22c55e;
-    }
-
-    .tool {
-      background: #020617;
-      padding: 40px;
-      border-radius: 10px;
-      border: 1px solid #1e293b;
-    }
-
-    .tool input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: none;
-    }
-
-    .tool button {
-      padding: 12px 25px;
-      background: #22c55e;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #020617;
-      color: #94a3b8;
-    }
-  </style>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#0f0f0f;
+  color:#ffffff;
+  padding:20px;
+}
+.container{
+  max-width:520px;
+  margin:auto;
+  background:#1c1c1c;
+  padding:20px;
+  border-radius:10px;
+}
+h1{font-size:22px;margin-bottom:10px;}
+input,button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:5px;
+}
+button{
+  background:#00c897;
+  font-weight:bold;
+  cursor:pointer;
+}
+small{color:#aaa;}
+.footer{
+  margin-top:20px;
+  text-align:center;
+  font-size:12px;
+  color:#aaa;
+}
+</style>
 </head>
 
 <body>
+<div class="container">
+  <h1>Instagram Invoice Generator</h1>
+  <small>Create a clean invoice in PKR (no logo)</small>
 
-  <!-- HERO -->
-  <header>
-    <h1>InstaOrderly</h1>
-    <p>
-      A smart tool to manage Instagram orders and generate professional invoices
-      — built for online sellers & small businesses.
-    </p>
-    <a href="#tool" class="btn">Use Free Tool</a>
-  </header>
+  <input type="text" id="business" placeholder="Business Name">
+  <input type="text" id="customer" placeholder="Customer Name (optional)">
+  <input type="text" id="product" placeholder="Product Name">
+  <input type="number" id="qty" placeholder="Quantity">
+  <input type="number" id="price" placeholder="Price (PKR)">
 
-  <!-- FEATURES -->
-  <section>
-    <h2>Why InstaOrderly?</h2>
-    <div class="features">
-      <div class="card">
-        <h3>Instagram Friendly</h3>
-        <p>Create invoices specially designed for Instagram sellers.</p>
-      </div>
-      <div class="card">
-        <h3>Free & Simple</h3>
-        <p>No signup, no login. Just enter details and generate.</p>
-      </div>
-      <div class="card">
-        <h3>Small Business Ready</h3>
-        <p>Perfect for home businesses and online stores.</p>
-      </div>
-    </div>
-  </section>
+  <button onclick="generateInvoice()">Generate Invoice (PDF)</button>
 
-  <!-- TOOL -->
-  <section id="tool">
-    <h2>Invoice Generator Tool</h2>
-    <div class="tool">
-      <input type="text" id="customer" placeholder="Customer Name" />
-      <input type="text" id="product" placeholder="Product Name" />
-      <input type="number" id="price" placeholder="Price (PKR)" />
+  <div class="footer">
+    Want order tracking & auto invoices?<br>
+    <strong>Try InstaOrderly (Free)</strong>
+  </div>
+</div>
 
-      <button onclick="generateInvoice()">Generate Invoice</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+function generateInvoice(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
 
-      <p id="output" style="margin-top:20px;"></p>
-    </div>
-  </section>
+  const business = document.getElementById("business").value || "Invoice";
+  const customer = document.getElementById("customer").value || "-";
+  const product = document.getElementById("product").value;
+  const qty = Number(document.getElementById("qty").value);
+  const price = Number(document.getElementById("price").value);
+  const total = qty * price;
 
-  <!-- SCRIPT -->
-  <script>
-    function generateInvoice() {
-      const customer = document.getElementById("customer").value;
-      const product = document.getElementById("product").value;
-      const price = document.getElementById("price").value;
+  const invoiceNo = "INV-" + Math.floor(100000 + Math.random() * 900000);
+  const date = new Date().toLocaleDateString();
 
-      if (!customer || !product || !price) {
-        alert("Please fill all fields");
-        return;
-      }
+  let y = 20;
+  doc.setFontSize(16);
+  doc.text(business, 20, y);
 
-      document.getElementById("output").innerHTML =
-        "<strong>Invoice Generated:</strong><br><br>" +
-        "Customer: " + customer + "<br>" +
-        "Product: " + product + "<br>" +
-        "Total: PKR " + price;
-    }
-  </script>
+  doc.setFontSize(11);
+  y += 10;
+  doc.text(`Invoice No: ${invoiceNo}`, 20, y);
+  y += 7;
+  doc.text(`Date: ${date}`, 20, y);
+  y += 7;
+  doc.text(`Customer: ${customer}`, 20, y);
 
-  <!-- FOOTER -->
-  <footer>
-    © 2026 InstaOrderly · Built for Instagram Sellers
-  </footer>
+  y += 12;
+  doc.text(`Product: ${product}`, 20, y);
+  y += 7;
+  doc.text(`Quantity: ${qty}`, 20, y);
+  y += 7;
+  doc.text(`Price: PKR ${price}`, 20, y);
+  y += 10;
 
+  doc.setFontSize(13);
+  doc.text(`Total: PKR ${total}`, 20, y);
+
+  y += 15;
+  doc.setFontSize(10);
+  doc.text("Generated via InstaOrderly", 20, y);
+
+  doc.save(`invoice-${invoiceNo}.pdf`);
+}
+</script>
 </body>
 </html>
