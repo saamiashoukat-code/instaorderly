@@ -2,110 +2,122 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Instagram Invoice Generator | InstaOrderly</title>
+<title>InstaOrderly – Instagram Invoice Generator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{
-margin:0;
-background:radial-gradient(circle at top,#0f172a,#020617);
-color:#fff;
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-padding:20px;
-}
-.container{
-width:100%;
-max-width:460px;
-background:rgba(255,255,255,0.05);
-border-radius:18px;
-padding:24px;
-box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-h1{text-align:center;color:#60a5fa;margin:0}
-.sub{text-align:center;font-size:14px;opacity:.85;margin-bottom:16px}
-label{font-size:13px;margin-top:12px;display:block}
-in…
-[2:42 AM, 1/21/2026] Sammo: https://saamiashoukat-code.github.io/instaorderly/instagram-invoice-generator.html
-[2:50 AM, 1/21/2026] Sammo: <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Instagram Invoice Generator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- PDF LIB -->
+<!-- PDF Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+
 body{
-margin:0;
-background:linear-gradient(135deg,#0b1020,#0f1c3f);
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-color:#fff;
-padding:20px
+  margin:0;
+  background:linear-gradient(135deg,#020617,#0f172a);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  color:#fff;
 }
+
 .card{
-width:100%;
-max-width:420px;
-background:rgba(255,255,255,0.08);
-border-radius:18px;
-padding:22px;
-backdrop-filter:blur(10px)
+  width:100%;
+  max-width:430px;
+  background:rgba(255,255,255,0.06);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);
 }
-h1{
-text-align:center;
-margin-bottom:5px;
-color:#4ea4ff
+
+.brand{
+  text-align:center;
+  font-size:26px;
+  font-weight:800;
+  color:#22c55e;
+  margin-bottom:4px;
 }
+
 .subtitle{
-text-align:center;
-font-size:14px;
-opacity:.9;
-margin-bottom:18px
+  text-align:center;
+  font-size:14px;
+  opacity:.85;
+  margin-bottom:18px;
 }
-label{font-size:14px;margin-top:10px;display:block}
+
+label{
+  display:block;
+  font-size:14px;
+  margin-top:12px;
+}
+
 input,select{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:none;
-margin-top:6px;
-font-size:15px
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-top:6px;
+  font-size:15px;
 }
+
 .product{
-margin-top:10px;
-background:rgba(255,255,255,0.08);
-padding:10px;
-border-radius:10px
+  background:#0f172a;
+  padding:12px;
+  border-radius:12px;
+  margin-top:12px;
+  border:1px solid #1e293b;
 }
+
 .btn{
-width:100%;
-padding:14px;
-margin-top:14px;
-border:none;
-border-radius:12px;
-font-size:16px;
-cursor:pointer
+  width:100%;
+  padding:14px;
+  margin-top:14px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
 }
-.add-btn{background:#243a6b;color:#fff}
-.gen-btn{background:#22c55e;color:#000;font-weight:bold}
-.wa-btn{background:#25D366;color:#000;font-weight:bold}
-.footer{text-align:center;font-size:12px;margin-top:14px;opacity:.7}
+
+.add-btn{
+  background:#1e293b;
+  color:#fff;
+}
+
+.gen-btn{
+  background:#22c55e;
+  color:#022c22;
+}
+
+.wa-btn{
+  background:#25D366;
+  color:#022c22;
+}
+
+.footer{
+  text-align:center;
+  font-size:12px;
+  margin-top:16px;
+  opacity:.7;
+}
+
+/* Invoice */
 .invoice{
-background:#fff;
-color:#000;
-padding:20px;
-border-radius:10px;
-margin-top:20px;
-display:none
+  display:none;
+  background:#fff;
+  color:#000;
+  border-radius:12px;
+  padding:20px;
+  margin-top:20px;
+}
+.invoice h2{
+  margin-top:0;
+  color:#0f172a;
+}
+.invoice p{
+  margin:4px 0;
 }
 </style>
 </head>
@@ -113,104 +125,113 @@ display:none
 <body>
 
 <div class="card">
-<h1>Instagram Invoice Generator</h1>
-<div class="subtitle">100 invoices FREE – built for Pakistani sellers 🇵🇰</div>
+  <div class="brand">InstaOrderly</div>
+  <div class="subtitle">Invoice generator for Instagram sellers 🇵🇰</div>
 
-<label>Customer Name</label>
-<input id="customer" placeholder="Customer name">
+  <label>Customer Name</label>
+  <input id="customer" placeholder="Customer name">
 
-<label>Payment Method</label>
-<select id="payment">
-<option>Cash on Delivery</option>
-<option>Bank Transfer</option>
-<option>EasyPaisa</option>
-<option>JazzCash</option>
-</select>
+  <label>Payment Method</label>
+  <select id="payment">
+    <option>Cash on Delivery</option>
+    <option>Bank Transfer</option>
+    <option>EasyPaisa</option>
+    <option>JazzCash</option>
+  </select>
 
-<div id="products"></div>
+  <div id="products"></div>
 
-<button class="btn add-btn" onclick="addProduct()">+ Add Product</button>
-<button class="btn gen-btn" onclick="generateInvoice()">Generate Invoice</button>
-<button class="btn wa-btn" onclick="sendWhatsApp()">Send via WhatsApp</button>
+  <button class="btn add-btn" onclick="addProduct()">+ Add Product</button>
+  <button class="btn gen-btn" onclick="generateInvoice()">Generate Invoice (PDF)</button>
+  <button class="btn wa-btn" onclick="sendWhatsApp()">Send via WhatsApp</button>
 
-<div class="footer">Powered by InstaOrderly</div>
+  <div class="footer">Invoice generated via InstaOrderly</div>
 
-<!-- INVOICE -->
-<div id="invoice" class="invoice">
-<h2>Invoice</h2>
-<p><b>Invoice No:</b> <span id="invNo"></span></p>
-<p><b>Date:</b> <span id="invDate"></span></p>
-<p><b>Customer:</b> <span id="invCustomer"></span></p>
-<p><b>Payment:</b> <span id="invPayment"></span></p>
-<hr>
-<div id="invProducts"></div>
-<hr>
-<h3>Total: PKR <span id="grandTotal">0</span></h3>
-</div>
-
+  <!-- Invoice Preview -->
+  <div id="invoice" class="invoice">
+    <h2>InstaOrderly Invoice</h2>
+    <p><b>Invoice No:</b> <span id="invNo"></span></p>
+    <p><b>Date:</b> <span id="invDate"></span></p>
+    <p><b>Customer:</b> <span id="invCustomer"></span></p>
+    <p><b>Payment:</b> <span id="invPayment"></span></p>
+    <hr>
+    <div id="invProducts"></div>
+    <hr>
+    <h3>Total: PKR <span id="grandTotal">0</span></h3>
+    <p style="font-size:12px;opacity:.7;margin-top:14px;">
+      Invoice generated via InstaOrderly
+    </p>
+  </div>
 </div>
 
 <script>
-let invoiceCount = 0;
+let invoiceCounter = Number(localStorage.getItem("instaorderly_inv") || 1000);
 
 function addProduct(){
-const div=document.createElement("div");
-div.className="product";
-div.innerHTML=`
-<label>Product Name</label>
-<input class="pname" placeholder="Product">
+  const div=document.createElement("div");
+  div.className="product";
+  div.innerHTML=`
+    <label>Product Name</label>
+    <input class="pname" placeholder="Product name">
 
-<label>Quantity</label>
-<input class="pqty" type="number" value="1">
+    <label>Quantity</label>
+    <input class="pqty" type="number" value="1" min="1">
 
-<label>Price (PKR)</label>
-<input class="pprice" type="number" placeholder="0">
-`;
-document.getElementById("products").appendChild(div);
+    <label>Price (PKR)</label>
+    <input class="pprice" type="number" placeholder="0">
+  `;
+  document.getElementById("products").appendChild(div);
 }
 
-addProduct(); // first product auto
+addProduct(); // first product
 
 function generateInvoice(){
-invoiceCount++;
-document.getElementById("invoice").style.display="block";
+  invoiceCounter++;
+  localStorage.setItem("instaorderly_inv", invoiceCounter);
 
-const invNo="INV-"+Math.floor(100000+Math.random()*900000);
-document.getElementById("invNo").innerText=invNo;
-document.getElementById("invDate").innerText=new Date().toLocaleDateString();
-document.getElementById("invCustomer").innerText=document.getElementById("customer").value || "-";
-document.getElementById("invPayment").innerText=document.getElementById("payment").value;
+  document.getElementById("invoice").style.display="block";
 
-let total=0;
-let html="";
-document.querySelectorAll(".product").forEach(p=>{
-const name=p.querySelector(".pname").value;
-const qty=Number(p.querySelector(".pqty").value);
-const price=Number(p.querySelector(".pprice").value);
-const sub=qty*price;
-total+=sub;
-html+=<p>${name} — ${qty} × ${price} = PKR ${sub}</p>;
-});
-document.getElementById("invProducts").innerHTML=html;
-document.getElementById("grandTotal").innerText=total;
+  document.getElementById("invNo").innerText="INV-"+invoiceCounter;
+  document.getElementById("invDate").innerText=new Date().toLocaleDateString();
+  document.getElementById("invCustomer").innerText=
+    document.getElementById("customer").value || "-";
+  document.getElementById("invPayment").innerText=
+    document.getElementById("payment").value;
 
-html2pdf().from(document.getElementById("invoice")).save();
+  let total=0;
+  let listHTML="";
+  document.querySelectorAll(".product").forEach(p=>{
+    const name=p.querySelector(".pname").value || "-";
+    const qty=Number(p.querySelector(".pqty").value);
+    const price=Number(p.querySelector(".pprice").value);
+    const sub=qty*price;
+    total+=sub;
+    listHTML+=<p>${name} — ${qty} × ${price} = PKR ${sub}</p>;
+  });
+
+  document.getElementById("invProducts").innerHTML=listHTML;
+  document.getElementById("grandTotal").innerText=total;
+
+  html2pdf().from(document.getElementById("invoice")).save("InstaOrderly-Invoice.pdf");
 }
 
 function sendWhatsApp(){
-const total=document.getElementById("grandTotal").innerText;
-const inv=document.getElementById("invNo").innerText;
-const customer=document.getElementById("customer").value || "Customer";
+  const customer=document.getElementById("customer").value || "Customer";
+  const total=document.getElementById("grandTotal").innerText;
+  const inv=document.getElementById("invNo").innerText || "Invoice";
 
-const msg=`Assalam o Alaikum ${customer},
+  const msg=
+`Assalam o Alaikum ${customer},
 
-Your invoice ${inv} is ready.
+Your invoice (${inv}) has been generated.
+
 Total Amount: PKR ${total}
 
 Please find the invoice PDF attached.
-Thank you for ordering via InstaOrderly.`;
 
-window.open("https://wa.me/?text="+encodeURIComponent(msg));
+Thank you for choosing InstaOrderly.`;
+
+  window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
 }
 </script>
 
