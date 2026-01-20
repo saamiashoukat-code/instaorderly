@@ -1,134 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Contact | InstaOrderly</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Contact – InstaOrderly</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      background:#0f0f0f;
-      color:#ffffff;
-      margin:0;
-      padding-top:70px; /* fixed navbar space */
-    }
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#0f0f0f;
+  color:#fff;
+  padding-top:70px;
+}
 
-    /* NAVBAR */
-    .navbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:15px 25px;
-      background:#0f0f0f;
-      border-bottom:1px solid #222;
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      z-index:1000;
-    }
+.navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 25px;
+  background:#0f0f0f;
+  border-bottom:1px solid #222;
+  z-index:1000;
+}
 
-    .nav-logo{
-      color:#00e5ff;
-      font-size:18px;
-      font-weight:bold;
-    }
+.nav-logo{
+  font-weight:bold;
+  font-size:18px;
+  color:#00e5ff;
+}
 
-    .nav-links a{
-      color:#ffffff;
-      text-decoration:none;
-      margin-left:20px;
-      font-weight:500;
-    }
+.nav-links a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:20px;
+}
 
-    .nav-links a.active{
-      color:#00e5ff;
-    }
+.nav-links a.active,
+.nav-links a:hover{
+  color:#00e5ff;
+}
 
-    /* PAGE CONTENT */
-    .container{
-      max-width:700px;
-      margin:40px auto;
-      padding:20px;
-    }
+.container{
+  max-width:800px;
+  margin:auto;
+  background:#1c1c1c;
+  padding:25px;
+  border-radius:10px;
+}
 
-    h1{
-      color:#00e5ff;
-      margin-bottom:10px;
-    }
-
-    p{
-      opacity:0.85;
-      line-height:1.6;
-    }
-
-    input, textarea{
-      width:100%;
-      padding:12px;
-      margin-top:12px;
-      background:#1c1c1c;
-      border:none;
-      border-radius:6px;
-      color:white;
-      font-size:14px;
-    }
-
-    textarea{
-      resize:none;
-    }
-
-    button{
-      margin-top:15px;
-      width:100%;
-      padding:12px;
-      background:#00e5ff;
-      color:#000;
-      border:none;
-      border-radius:6px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    button:hover{
-      opacity:0.9;
-    }
-  </style>
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:#aaa;
+  margin-top:30px;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-logo">InstaOrderly</div>
-
-    <div class="nav-links">
-      <a href="index.html">Tool</a>
-      <a href="about.html">About</a>
-      <a href="contact.html" class="active">Contact</a>
-    </div>
-  </nav>
-
-  <!-- CONTACT CONTENT -->
-  <div class="container">
-    <h1>Contact Us</h1>
-
-    <p>
-      Have a question, feedback, or feature request?  
-      Reach out to us and we’ll get back to you shortly.
-    </p>
-
-    <input type="text" placeholder="Your Name">
-    <input type="email" placeholder="Your Email">
-    <textarea rows="4" placeholder="Your Message"></textarea>
-
-    <button>Send Message</button>
-
-    <p style="margin-top:20px;">
-      Or email us at:  
-      <b>support@instaorderly.com</b>
-    </p>
+<nav class="navbar">
+  <div class="nav-logo">InstaOrderly</div>
+  <div class="nav-links">
+    <a href="index.html">Tool</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
   </div>
+</nav>
+
+<div class="container">
+  <h1>Contact Us</h1>
+  <p>Email: support@instaorderly.com</p>
+  <p>We usually reply within 24 hours.</p>
+</div>
+
+<div class="footer">
+  © 2026 InstaOrderly
+</div>
 
 </body>
 </html>
