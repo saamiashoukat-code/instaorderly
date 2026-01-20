@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Instagram Invoice Generator | InstaOrderly™</title>
 
-<!-- PDF Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
@@ -29,75 +28,41 @@ body{
   box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
 
-h1{
-  text-align:center;
-  color:#60a5fa;
-  margin-bottom:6px;
-}
+h1{text-align:center;color:#60a5fa}
+.subtitle{text-align:center;font-size:14px;opacity:.85;margin-bottom:20px}
 
-.subtitle{
-  text-align:center;
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:20px;
-}
-
-label{
-  font-size:14px;
-  margin-top:12px;
-  display:block;
-}
-
+label{font-size:14px;margin-top:12px;display:block}
 input,select{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  margin-top:6px;
-  font-size:14px;
+  width:100%;padding:12px;border-radius:10px;border:none;margin-top:6px;font-size:14px
 }
 
 button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  font-size:15px;
-  margin-top:14px;
-  cursor:pointer;
-  font-weight:bold;
+  width:100%;padding:14px;border:none;border-radius:12px;
+  font-size:15px;margin-top:14px;cursor:pointer;font-weight:bold
 }
 
-.generate{
-  background:#22c55e;
-  color:#000;
-}
-
-.secondary{
-  background:#0f172a;
-  color:#fff;
-}
+.generate{background:#22c55e;color:#000}
+.secondary{background:#0f172a;color:#fff}
 
 .invoice{
-  margin-top:20px;
-  background:#020617;
-  border:1px solid #1e293b;
-  border-radius:12px;
-  padding:16px;
-  display:none;
+  margin-top:20px;background:#020617;border:1px solid #1e293b;
+  border-radius:12px;padding:16px;display:none
 }
 
-.invoice h3{
-  margin-top:0;
-  color:#22c55e;
-}
+.footer{text-align:center;font-size:12px;margin-top:16px;opacity:.7}
 
-.footer{
-  text-align:center;
-  font-size:12px;
-  margin-top:16px;
-  opacity:.7;
+/* POPUP */
+.popup{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.6);
+  display:none;justify-content:center;align-items:center
 }
+.popup-box{
+  background:#020617;padding:30px;border-radius:16px;
+  max-width:320px;text-align:center
+}
+.popup-box h2{color:#22c55e;margin-top:0}
+.popup-box button{margin-top:12px}
 </style>
 </head>
 
@@ -109,7 +74,7 @@ button{
 <p class="subtitle">100 invoices FREE – built for Pakistani sellers 🇵🇰</p>
 
 <label>Customer Name</label>
-<input id="customer" placeholder="Customer name">
+<input id="customer">
 
 <label>Payment Method</label>
 <select id="payment">
@@ -120,13 +85,13 @@ button{
 </select>
 
 <label>Product Name</label>
-<input id="product" placeholder="Product name">
+<input id="product">
 
 <label>Quantity</label>
 <input id="qty" type="number" value="1" min="1">
 
 <label>Price (PKR)</label>
-<input id="price" type="number" placeholder="e.g. 5000">
+<input id="price" type="number">
 
 <button class="generate" onclick="generateInvoice()">Generate Invoice</button>
 <button class="secondary" onclick="shareWhatsApp()">Share on WhatsApp</button>
@@ -143,47 +108,65 @@ button{
   <p><b>Total:</b> PKR <span id="invTotal"></span></p>
 </div>
 
-<p class="footer">Powered by <b>InstaOrderly™</b></p>
+<p class="footer" id="branding">Powered by <b>InstaOrderly™</b></p>
 
 </div>
 
-<script>
-function generateInvoice(){
-  const customer=document.getElementById("customer").value || "—";
-  const product=document.getElementById("product").value || "—";
-  const qty=parseInt(document.getElementById("qty").value) || 1;
-  const price=parseInt(document.getElementById("price").value) || 0;
-  const payment=document.getElementById("payment").value;
+<!-- PRO POPUP -->
+<div class="popup" id="upgradePopup">
+  <div class="popup-box">
+    <h2>Upgrade to Pro 🚀</h2>
+    <p>You’ve used your 100 free invoices.</p>
+    <p><b>PKR 1,999 / month</b></p>
+    <button class="generate" onclick="activatePro()">Activate Pro</button>
+    <button class="secondary" onclick="closePopup()">Later</button>
+  </div>
+</div>
 
-  if(price<=0){
-    alert("Please enter valid price");
+<script>
+let invoiceCount = Number(localStorage.getItem("invoiceCount")) || 0;
+let isPro = localStorage.getItem("isPro") === "true";
+
+if(isPro){
+  document.getElementById("branding").style.display="none";
+}
+
+function generateInvoice(){
+  if(!isPro && invoiceCount>=100){
+    document.getElementById("upgradePopup").style.display="flex";
     return;
   }
 
-  const total=qty*price;
+  const customer=customerInput();
+  const productVal=product.value || "—";
+  const qtyVal=parseInt(qty.value)||1;
+  const priceVal=parseInt(price.value)||0;
+  const paymentVal=payment.value;
+
+  if(priceVal<=0){alert("Enter valid price");return;}
+
+  invoiceCount++;
+  localStorage.setItem("invoiceCount",invoiceCount);
 
   invCustomer.innerText=customer;
-  invProduct.innerText=product;
-  invQty.innerText=qty;
-  invPayment.innerText=payment;
-  invPrice.innerText=price;
-  invTotal.innerText=total;
+  invProduct.innerText=productVal;
+  invQty.innerText=qtyVal;
+  invPayment.innerText=paymentVal;
+  invPrice.innerText=priceVal;
+  invTotal.innerText=qtyVal*priceVal;
 
-  document.getElementById("invoiceBox").style.display="block";
+  invoiceBox.style.display="block";
+}
+
+function customerInput(){
+  return document.getElementById("customer").value || "—";
 }
 
 function shareWhatsApp(){
-  const text=
-`📄 InstaOrderly Invoice
-
+  const text=`InstaOrderly Invoice
 Customer: ${invCustomer.innerText}
 Product: ${invProduct.innerText}
-Quantity: ${invQty.innerText}
-Payment: ${invPayment.innerText}
-Total: PKR ${invTotal.innerText}
-
-Powered by InstaOrderly™`;
-
+Total: PKR ${invTotal.innerText}`;
   window.open("https://wa.me/?text="+encodeURIComponent(text));
 }
 
@@ -191,38 +174,34 @@ function downloadPDF(){
   const { jsPDF } = window.jspdf;
   const doc=new jsPDF();
 
-  const logo=new Image();
-  logo.src="logo.png";
+  doc.setFontSize(18);
+  doc.text("InstaOrderly™ Invoice",20,20);
 
-  logo.onload=function(){
-    doc.addImage(logo,"PNG",20,10,30,30);
+  doc.setFontSize(12);
+  doc.text("Customer: "+invCustomer.innerText,20,40);
+  doc.text("Product: "+invProduct.innerText,20,50);
+  doc.text("Quantity: "+invQty.innerText,20,60);
+  doc.text("Payment: "+invPayment.innerText,20,70);
+  doc.text("Total: PKR "+invTotal.innerText,20,90);
 
-    doc.setFontSize(18);
-    doc.text("InstaOrderly™",60,22);
-    doc.setFontSize(11);
-    doc.text("Instagram Invoice Generator",60,30);
-
-    doc.line(20,45,190,45);
-
-    doc.setFontSize(12);
-    doc.text("Customer: "+invCustomer.innerText,20,60);
-    doc.text("Product: "+invProduct.innerText,20,70);
-    doc.text("Quantity: "+invQty.innerText,20,80);
-    doc.text("Payment: "+invPayment.innerText,20,90);
-    doc.text("Price: PKR "+invPrice.innerText,20,100);
-
-    doc.setFontSize(14);
-    doc.text("Total: PKR "+invTotal.innerText,20,120);
-
+  if(!isPro){
     doc.setFontSize(10);
-    doc.text(
-      "Powered by InstaOrderly™ | Create invoices instantly for Instagram sellers",
-      20,
-      140
-    );
+    doc.text("Powered by InstaOrderly™",20,120);
+  }
 
-    doc.save("InstaOrderly-Invoice.pdf");
-  };
+  doc.save("invoice.pdf");
+}
+
+function activatePro(){
+  localStorage.setItem("isPro","true");
+  isPro=true;
+  document.getElementById("branding").style.display="none";
+  closePopup();
+  alert("Pro activated successfully!");
+}
+
+function closePopup(){
+  document.getElementById("upgradePopup").style.display="none";
 }
 </script>
 
