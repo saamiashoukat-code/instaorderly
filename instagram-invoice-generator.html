@@ -1,147 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Instagram Invoice Generator | InstaOrderly</title>
+<meta charset="UTF-8">
+<title>Instagram Invoice Generator | InstaOrderly</title>
 
-  <!-- SEO -->
-  <meta name="description" content="Free Instagram invoice generator for WhatsApp & Instagram sellers in Pakistan. Create PDF invoices instantly.">
-  <meta name="keywords" content="Instagram invoice generator, WhatsApp invoice, COD invoice Pakistan, PDF invoice tool">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free Instagram Invoice Generator for WhatsApp & COD sellers in Pakistan. Create professional PDF invoices instantly.">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
-  <!-- PDF Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<!-- jsPDF CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
-
-<!-- NAV -->
-<nav style="padding:15px;">
-  <a href="index.html">Home</a> |
-  <a href="instagram-invoice-generator.html">Tool</a> |
-  <a href="pricing.html">Pricing</a> |
-  <a href="contact.html">Contact</a>
-</nav>
-
 <div class="container">
 
-  <h1>Instagram Invoice Generator</h1>
-  <p>Create professional invoices for Instagram & WhatsApp orders.</p>
+<h1>Instagram Invoice Generator</h1>
+<p>Create professional invoices for Instagram & WhatsApp orders.</p>
 
-  <!-- FORM -->
-  <div id="invoice-form">
+<!-- CUSTOMER DETAILS -->
+<input type="text" id="customerName" placeholder="Customer Name">
+<input type="text" id="contactNumber" placeholder="Contact Number">
+<textarea id="address" placeholder="Delivery Address"></textarea>
 
-    <input id="customerName" placeholder="Customer Name">
-    <input id="contactNumber" placeholder="Contact Number">
-    <textarea id="address" placeholder="Delivery Address"></textarea>
+<hr>
 
-    <h3>Products</h3>
+<h3>Products</h3>
+<div id="products"></div>
 
-    <div id="products"></div>
-    <button onclick="addProduct()">+ Add Product</button>
+<button onclick="addProduct()">+ Add Product</button>
 
-    <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
+<hr>
 
-    <button onclick="generateInvoice()">Generate Invoice</button>
+<input type="text" id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
 
-  </div>
+<h3>Total Amount: PKR <span id="totalAmount">0</span></h3>
 
-  <!-- INVOICE -->
-  <div class="invoice-box" id="invoice" style="display:none; margin-top:40px;">
+<button onclick="generateInvoice()">Generate Invoice</button>
 
-    <h2>INVOICE</h2>
-    <p><strong>Name:</strong> <span id="iName"></span></p>
-    <p><strong>Contact:</strong> <span id="iContact"></span></p>
-    <p><strong>Address:</strong> <span id="iAddress"></span></p>
+<!-- INVOICE PREVIEW -->
+<div id="invoice" class="invoice-box" style="display:none; margin-top:30px;">
+<h2>Invoice</h2>
 
-    <table border="1" width="100%" cellspacing="0" cellpadding="8">
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Price</th>
-          <th>Qty</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody id="invoiceProducts"></tbody>
-    </table>
+<p><b>Customer:</b> <span id="iName"></span></p>
+<p><b>Contact:</b> <span id="iContact"></span></p>
+<p><b>Address:</b> <span id="iAddress"></span></p>
+<p><b>Payment:</b> <span id="iPayment"></span></p>
 
-    <h3>Total Amount: PKR <span id="grandTotal"></span></h3>
-    <p><strong>Payment:</strong> <span id="iPayment"></span></p>
+<table border="1" width="100%" cellpadding="6">
+<thead>
+<tr>
+<th>Product</th>
+<th>Price</th>
+<th>Qty</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody id="invoiceItems"></tbody>
+</table>
 
-    <button onclick="downloadPDF()">Download PDF</button>
-    <button onclick="sendWhatsApp()">Send on WhatsApp</button>
+<h3>Grand Total: PKR <span id="iTotal"></span></h3>
 
-  </div>
-
-  <!-- SEO CONTENT -->
-  <section style="margin-top:40px;font-size:14px;line-height:1.7">
-    <h2>Free Instagram Invoice Generator for Online Sellers</h2>
-    <p>
-      InstaOrderly is a free invoice generator designed for Instagram sellers,
-      WhatsApp businesses, and COD sellers in Pakistan. Generate professional
-      PDF invoices instantly without Excel or Canva.
-    </p>
-  </section>
+<button onclick="downloadPDF()">📄 Download PDF</button>
+<button onclick="shareWhatsApp()">📲 Share on WhatsApp</button>
+</div>
 
 </div>
 
 <script>
-let productsDiv = document.getElementById("products");
-
 function addProduct() {
-  let div = document.createElement("div");
+  const div = document.createElement("div");
   div.innerHTML = `
-    <input placeholder="Product Name">
-    <input type="number" placeholder="Price">
-    <input type="number" placeholder="Qty">
-    <hr>
+    <input type="text" placeholder="Product Name" class="pname">
+    <input type="number" placeholder="Price" class="price" oninput="calculateTotal()">
+    <input type="number" placeholder="Qty" class="qty" oninput="calculateTotal()">
   `;
-  productsDiv.appendChild(div);
+  document.getElementById("products").appendChild(div);
 }
-addProduct();
+
+function calculateTotal() {
+  let total = 0;
+  document.querySelectorAll("#products div").forEach(row => {
+    const price = row.querySelector(".price").value || 0;
+    const qty = row.querySelector(".qty").value || 0;
+    total += price * qty;
+  });
+  document.getElementById("totalAmount").innerText = total;
+}
 
 function generateInvoice() {
   document.getElementById("invoice").style.display = "block";
 
-  document.getElementById("iName").innerText = customerName.value;
-  document.getElementById("iContact").innerText = contactNumber.value;
-  document.getElementById("iAddress").innerText = address.value;
-  document.getElementById("iPayment").innerText = paymentMethod.value;
+  iName.innerText = customerName.value;
+  iContact.innerText = contactNumber.value;
+  iAddress.innerText = address.value;
+  iPayment.innerText = paymentMethod.value;
 
-  let tbody = document.getElementById("invoiceProducts");
+  const tbody = document.getElementById("invoiceItems");
   tbody.innerHTML = "";
-  let total = 0;
 
-  [...productsDiv.children].forEach(p => {
-    let name = p.children[0].value;
-    let price = Number(p.children[1].value);
-    let qty = Number(p.children[2].value);
-    let rowTotal = price * qty;
-    total += rowTotal;
+  let total = 0;
+  document.querySelectorAll("#products div").forEach(row => {
+    const name = row.querySelector(".pname").value;
+    const price = row.querySelector(".price").value;
+    const qty = row.querySelector(".qty").value;
+    const sub = price * qty;
+    total += sub;
 
     tbody.innerHTML += `
       <tr>
         <td>${name}</td>
         <td>${price}</td>
         <td>${qty}</td>
-        <td>${rowTotal}</td>
-      </tr>`;
+        <td>${sub}</td>
+      </tr>
+    `;
   });
 
-  document.getElementById("grandTotal").innerText = total;
+  iTotal.innerText = total;
 }
 
 function downloadPDF() {
-  html2pdf().from(document.getElementById("invoice")).save("invoice.pdf");
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+  doc.text("INVOICE", 10, y); y+=10;
+
+  doc.text(Customer: ${iName.innerText},10,y); y+=8;
+  doc.text(Contact: ${iContact.innerText},10,y); y+=8;
+  doc.text(Address: ${iAddress.innerText},10,y); y+=8;
+  doc.text(Payment: ${iPayment.innerText},10,y); y+=10;
+
+  doc.text("Products:",10,y); y+=8;
+
+  document.querySelectorAll("#invoiceItems tr").forEach(row=>{
+    doc.text(row.innerText,10,y);
+    y+=8;
+  });
+
+  doc.text(Total: PKR ${iTotal.innerText},10,y+5);
+
+  doc.save("invoice.pdf");
 }
 
-function sendWhatsApp() {
-  let text = Invoice for ${customerName.value}\nTotal PKR ${grandTotal.innerText};
-  window.open(https://wa.me/?text=${encodeURIComponent(text)});
+function shareWhatsApp() {
+  let message = Invoice Details:%0A;
+  message += Customer: ${iName.innerText}%0A;
+  message += Contact: ${iContact.innerText}%0A;
+  message += Address: ${iAddress.innerText}%0A;
+  message += Payment: ${iPayment.innerText}%0A%0AProducts:%0A;
+
+  document.querySelectorAll("#invoiceItems tr").forEach(row=>{
+    message += row.innerText + %0A;
+  });
+
+  message += %0AGrand Total: PKR ${iTotal.innerText};
+
+  window.open(https://wa.me/?text=${message}, "_blank");
 }
 </script>
 
