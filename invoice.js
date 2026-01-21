@@ -1,14 +1,26 @@
 let products = [];
 
 function addProduct() {
-  const name = prompt("Product Name");
-  const price = parseFloat(prompt("Price"));
-  const qty = parseInt(prompt("Quantity"));
+  const name = document.getElementById("productName").value;
+  const price = Number(document.getElementById("productPrice").value);
+  const qty = Number(document.getElementById("productQty").value);
 
-  if (!name || isNaN(price) || isNaN(qty)) {
-    alert("Invalid product details");
+  if (!name || !price || !qty) {
+    alert("Please fill product name, price and quantity");
     return;
   }
+
+  products.push({
+    name: name,
+    price: price,
+    qty: qty
+  });
+
+  // clear inputs after add
+  document.getElementById("productName").value = "";
+  document.getElementById("productPrice").value = "";
+  document.getElementById("productQty").value = "";
+}
 
   products.push({ name, price, qty });
   alert("Product added");
