@@ -98,11 +98,58 @@ th,td{
 <button onclick="generateInvoice()">Generate Invoice</button>
 
 <!-- INVOICE -->
-<div id="invoice">
+<div id="invoice" class="invoice hidden">
 
-  <div class="logo">
-    <img src="logo.png" alt="Brand Logo">
+  <!-- Brand Header -->
+  <div class="invoice-header">
+    <img src="logo.png" alt="Brand Logo" class="brand-logo">
+    <h1 class="brand-name">InstaOrderly</h1>
+    <p class="brand-tagline">Professional Invoice Generator</p>
   </div>
+
+  <!-- Meta -->
+  <div class="invoice-meta">
+    <div>
+      <strong>Invoice Date:</strong>
+      <span id="invoiceDate"></span>
+    </div>
+    <div>
+      <strong>Payment:</strong>
+      <span id="invoicePayment"></span>
+    </div>
+  </div>
+
+  <!-- Customer -->
+  <div class="invoice-customer">
+    <p><strong>Customer:</strong> <span id="invoiceCustomer"></span></p>
+    <p><strong>Contact:</strong> <span id="invoiceContact"></span></p>
+  </div>
+
+  <!-- Products -->
+  <table class="invoice-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceProducts"></tbody>
+  </table>
+
+  <!-- Grand Total -->
+  <div class="invoice-total">
+    Grand Total: <span id="invoiceTotal">PKR 0</span>
+  </div>
+
+  <!-- Footer -->
+  <div class="invoice-footer">
+    Generated via <strong>InstaOrderly</strong><br>
+    www.instaorderly.com
+  </div>
+
+</div>
 
   <p><b>Name:</b> <span id="iName"></span></p>
   <p><b>Contact:</b> <span id="iContact"></span></p>
