@@ -1,113 +1,97 @@
-/* ===== GLOBAL RESET ===== */
+/* =========================
+   SAFE GLOBAL BASE STYLE
+   ========================= */
+
 * {
+  box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  transform: none !important;
-}
-
-/* ===== HTML / BODY FIX ===== */
-html, body {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  touch-action: manipulation;
-  -webkit-text-size-adjust: 100%;
-  zoom: 1;
-  background: #0f172a;
   font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #ffffff;
+  overflow-x: hidden;
+  zoom: 1;
 }
 
-/* ===== MAIN CONTAINER ===== */
+/* =========================
+   BASIC LAYOUT
+   ========================= */
+
 .container {
-  max-width: 720px;
-  margin: 0 auto;
+  max-width: 900px;
+  margin: auto;
   padding: 20px;
-  position: relative;
-  z-index: 1;
 }
 
-/* ===== HEADINGS ===== */
-h1 {
-  color: #22c55e;
-  margin-bottom: 12px;
-}
-h2 {
-  margin-top: 20px;
-  margin-bottom: 6px;
-}
+/* =========================
+   INPUTS & BUTTONS (CLICK FIX)
+   ========================= */
 
-/* ===== INPUTS ===== */
-input, textarea {
+input,
+textarea,
+select,
+button {
   width: 100%;
   padding: 12px;
-  margin: 8px 0;
+  margin-bottom: 12px;
   border-radius: 8px;
   border: none;
   font-size: 16px;
+
+  /* 🔥 MOST IMPORTANT CLICK FIX */
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
-/* ===== BUTTONS (100% CLICKABLE) ===== */
 button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
   background: #22c55e;
   color: #000;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 10px;
+  font-weight: bold;
   cursor: pointer;
-
-  /* CRITICAL */
-  pointer-events: auto !important;
-  position: relative;
-  z-index: 10;
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
-/* ===== PRODUCT ROW ===== */
-.product-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 8px;
+/* =========================
+   REMOVE ANY CLICK BLOCKERS
+   ========================= */
+
+.overlay,
+.background,
+.hero,
+.header,
+.logo,
+.bg {
+  pointer-events: none;
 }
 
-/* ===== INVOICE ===== */
-#invoice {
-  display: none;
-  margin-top: 30px;
-  background: #ffffff;
-  color: #000;
-  padding: 20px;
-  border-radius: 12px;
+/* =========================
+   IMAGE / LOGO FIX
+   ========================= */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-/* ===== TABLE ===== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+/* =========================
+   LINKS
+   ========================= */
+
+a {
+  color: #22c55e;
+  text-decoration: none;
 }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
-
-th {
-  background: #f1f5f9;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .product-row {
-    grid-template-columns: 1fr;
-  }
+a:hover {
+  text-decoration: underline;
 }
