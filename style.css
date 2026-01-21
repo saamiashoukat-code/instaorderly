@@ -1,136 +1,85 @@
-/* ===============================
-   InstaOrderly – FINAL STABLE CSS
-   =============================== */
-
+/* ===== RESET ===== */
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-/* Base */
-html, body {
-  width: 100%;
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
   background: #0f172a;
   color: #ffffff;
-  pointer-events: auto !important;
 }
 
-/* Container */
+/* ===== CONTAINER ===== */
 .container {
   max-width: 720px;
-  margin: 0 auto;
+  margin: auto;
   padding: 20px;
-  position: relative;
-  z-index: 1;
 }
 
-/* Headings */
-h1, h2, h3 {
-  margin-bottom: 12px;
+/* ===== HEADINGS ===== */
+h1 {
   color: #22c55e;
 }
 
-/* Inputs */
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 14px 16px;
-  margin-bottom: 14px;
-  border-radius: 12px;
-  border: none;
-  font-size: 16px;
-  background: #ffffff;
-  color: #000000;
-  outline: none;
-
-  /* CRITICAL */
-  pointer-events: auto !important;
-  position: relative;
-  z-index: 5;
+h3 {
+  margin-top: 20px;
 }
 
-/* Buttons */
+/* ===== INPUTS ===== */
+input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+/* ===== BUTTONS (🔥 CLICKABLE FIX) ===== */
 button {
   width: 100%;
-  padding: 14px 16px;
-  margin-bottom: 14px;
-  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 8px;
   border: none;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: bold;
   background: #22c55e;
-  color: #000000;
+  color: #000;
   cursor: pointer;
 
-  /* CRITICAL */
-  pointer-events: auto !important;
+  /* 🔥 MOST IMPORTANT FIX */
   position: relative;
   z-index: 10;
-}
-
-button:hover {
-  background: #16a34a;
+  pointer-events: auto;
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
-/* Product Row */
+/* ===== PRODUCT ROW ===== */
 .product-row {
   display: grid;
-  grid-template-columns: 1fr 100px 80px;
-  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
   margin-bottom: 10px;
 }
 
-/* Invoice Box */
-#invoice {
-  background: #ffffff;
-  color: #000000;
-  padding: 20px;
-  border-radius: 14px;
-  margin-top: 20px;
-}
-
-/* Table */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-th, td {
-  border: 1px solid #e5e7eb;
-  padding: 10px;
-  text-align: left;
-}
-
-/* Footer */
+/* ===== FOOTER ===== */
 .footer {
   text-align: center;
-  font-size: 13px;
+  opacity: 0.7;
   margin-top: 20px;
-  color: #94a3b8;
 }
 
-/* ===============================
-   🚫 NO OVERLAYS – EVER
-   =============================== */
-
-/* Kill all pseudo layers */
-body::before,
-body::after,
-.container::before,
-.container::after {
-  display: none !important;
-}
-
-/* Ensure NOTHING blocks clicks */
-* {
-  pointer-events: auto;
+/* ===== REMOVE ALL OVERLAYS ===== */
+.overlay,
+.background,
+.bg,
+.hero,
+header,
+.logo {
+  pointer-events: none !important;
 }
