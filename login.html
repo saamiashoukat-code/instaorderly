@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login – InstaOrderly</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Login</h2>
+<input placeholder="Email">
+<input placeholder="Password">
+<button onclick="login()">Login</button>
+
+<script>
+function login(){
+  localStorage.setItem("loggedIn","true");
+  localStorage.setItem("plan","free");
+  window.location.href="dashboard.html";
+}
+</script>
+
+</body>
+</html>
