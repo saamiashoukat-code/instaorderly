@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Instagram Invoice Generator</title>
+  <title> Free Instagram Invoice Generator for Pakistan | InstaOrderly</title>
+  <meta name="description" content="Free Instagram Invoice Generator for Pakistan. Create professional invoices for Instagram & WhatsApp orders. Download PDF & share on WhatsApp instantly." />
+
+<meta name="keywords" content="Instagram invoice generator, invoice generator Pakistan, WhatsApp invoice, Instagram seller invoice, free invoice generator, online invoice Pakistan" />
+
+<link rel="canonical" href="https://instaorderly.com/instagram-invoice-generator.html" />
 
   <!-- FIXED VIEWPORT (NO ZOOM BUG) -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,54 +21,196 @@
 <body>
 
   <div class="container">
-    <h1>Instagram Invoice Generator</h1>
+    <h1 style="margin-bottom:8px">
+Instagram Invoice Generator for Pakistan
+</h1>
 
+<p style="margin-top:0;color:#94a3b8;font-size:14px">
+Create clean, professional invoices for Instagram & WhatsApp orders.
+Download PDF and share instantly with customers.
+</p>
+    <p style="font-size:12px;color:#64748b">
+Trusted by Instagram sellers & home businesses across Pakistan 🇵🇰
+</p>
+    
+<hr style="
+  margin:30px 0;
+  border:none;
+  border-top:1px solid #1e293b;
+">
     <h2>Customer Details</h2>
-    <input id="customerName" placeholder="Customer Name" />
-    <input id="customerContact" placeholder="Contact Number" />
-    <input id="customerAddress" placeholder="Delivery Address" />
+   <div style="margin-top:15px">
+  <label style="display:block;margin-bottom:6px;font-size:13px;color:#cbd5f5">
+    Customer Name
+  </label>
+  <input id="customerName" placeholder="e.g. Ahmed Khan" />
+</div>
+
+<div style="margin-top:15px">
+  <label style="display:block;margin-bottom:6px;font-size:13px;color:#cbd5f5">
+    Contact Number
+  </label>
+  <input id="customerContact" placeholder="03xx-xxxxxxx" />
+</div>
+
+<div style="margin-top:15px">
+  <label style="display:block;margin-bottom:6px;font-size:13px;color:#cbd5f5">
+    Delivery Address
+  </label>
+  <input id="customerAddress" placeholder="House #, Area, City" />
+</div>
 
     <h2>Products</h2>
-    <div class="product-inputs">
-  <input id="productName" placeholder="Product Name" />
-  <input id="productPrice" type="number" placeholder="Price" />
-  <input id="productQty" type="number" placeholder="Quantity" />
-</div>
-    <button onclick="addProduct()">+ Add Product</button>
+   <table style="width:100%;margin-top:15px;border-collapse:collapse">
+  <thead>
+    <tr style="background:#0f172a;color:#e5e7eb">
+      <th style="padding:8px;text-align:left">Product</th>
+      <th style="padding:8px;text-align:center">Qty</th>
+<th style="padding:8px;text-align:center">Price</th>
+<th style="padding:8px;text-align:center">Total</th>
+      <th style="padding:8px"></th>
+    </tr>
+  </thead>
+  <tbody id="productTable"></tbody>
+</table>
 
-    <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)" />
+<button onclick="addRow()" style="margin-top:12px">
+  + Add Product
+</button>
+
+<h3 style="text-align:right;margin-top:20px">
+  Grand Total: Rs <span id="grandTotal">0</span>
+</h3>
+
+  <!-- Payment Method -->
+<label style="display:block;margin-top:20px;margin-bottom:6px;font-size:13px;color:#cbd5f5">
+Payment Method
+</label>
+
+<select id="paymentMethod">
+  <option value="Cash on Delivery">Cash on Delivery</option>
+  <option value="Bank Transfer">Bank Transfer</option>
+  <option value="EasyPaisa">EasyPaisa</option>
+  <option value="JazzCash">JazzCash</option>
+</select>
 
     <button onclick="generateInvoice()">Generate Invoice</button>
     <button onclick="downloadPDF()">Download PDF</button>
     <button onclick="shareWhatsApp()">Share on WhatsApp</button>
 
     <hr />
+<!-- INVOICE PREVIEW -->
+<div id="invoicePreview" style="
+margin-top:30px;
+padding:20px;
+border:1px solid #1e293b;
+border-radius:8px;
+background:#020617;
+display:none;
+">
 
-    <!-- INVOICE -->
-    <div id="invoice">
-      <h2>Invoice</h2>
-      <p><b>Name:</b> <span id="iName"></span></p>
-      <p><b>Contact:</b> <span id="iContact"></span></p>
-      <p><b>Address:</b> <span id="iAddress"></span></p>
-      <p><b>Payment:</b> <span id="iPayment"></span></p>
+<h2 style="text-align:center;margin-bottom:20px">
+Invoice Preview
+</h2>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody id="invoiceBody"></tbody>
-      </table>
+<p><strong>Customer:</strong> <span id="prevName"></span></p>
+<p><strong>Contact:</strong> <span id="prevContact"></span></p>
+<p><strong>Address:</strong> <span id="prevAddress"></span></p>
+<p><strong>Payment:</strong> <span id="prevPayment"></span></p>
 
-      <h3>Total: Rs <span id="grandTotal">0</span></h3>
-    </div>
+<hr />
+
+<div id="prevProducts"></div>
+
+<h3 style="text-align:right;margin-top:15px">
+Total: Rs <span id="prevTotal"></span>
+</h3>
+    
   </div>
 
   <!-- JS -->
-  <script src="invoice.js"></script>
+  <script>
+function generateInvoice() {
+  // 1. Customer details
+  const name = document.getElementById("customerName").value;
+  const contact = document.getElementById("customerContact").value;
+  const address = document.getElementById("customerAddress").value;
+  const payment = document.getElementById("paymentMethod").value;
+
+  // 2. Preview me data daalna
+  document.getElementById("prevName").innerText = name;
+  document.getElementById("prevContact").innerText = contact;
+  document.getElementById("prevAddress").innerText = address;
+  document.getElementById("prevPayment").innerText = payment;
+
+  // 3. Products copy karna
+  const previewProducts = document.getElementById("prevProducts");
+  previewProducts.innerHTML = "";
+
+  document.querySelectorAll("#productTable tr").forEach(row => {
+    const product = row.children[0].querySelector("input").value;
+    const qty = row.children[1].querySelector("input").value;
+    const price = row.children[2].querySelector("input").value;
+    const total = row.children[3].innerText;
+
+    const line = document.createElement("p");
+    line.innerText = ${product} — ${qty} x ${price} = Rs ${total};
+    previewProducts.appendChild(line);
+  });
+
+  // 4. Total
+  document.getElementById("prevTotal").innerText = totalAmount;
+
+  // 5. Show preview
+  document.getElementById("invoicePreview").style.display = "block";
+}
+    function shareWhatsApp() {
+  const name = document.getElementById("prevName").innerText;
+  const contact = document.getElementById("prevContact").innerText;
+  const address = document.getElementById("prevAddress").innerText;
+  const payment = document.getElementById("prevPayment").innerText;
+  const total = document.getElementById("prevTotal").innerText;
+
+  let productsText = "";
+  document.querySelectorAll("#prevProducts p").forEach(p => {
+    productsText += • ${p.innerText}\n;
+  });
+
+  const message =
+`🧾 Invoice Details
+
+👤 Name: ${name}
+📞 Contact: ${contact}
+🏠 Address: ${address}
+💳 Payment: ${payment}
+
+📦 Products:
+${productsText}
+
+💰 Total: Rs ${total}
+
+Thank you for your order 🙏`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappURL = https://wa.me/?text=${encodedMessage};
+
+  window.open(whatsappURL, "_blank");
+}
+function downloadPDF() {
+  const invoice = document.getElementById("invoicePreview");
+
+  invoice.style.display = "block"; // ensure visible
+
+  const options = {
+    margin: 0.5,
+    filename: 'invoice.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(options).from(invoice).save();
+}    
+</script>
 </body>
 </html>
