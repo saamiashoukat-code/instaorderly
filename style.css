@@ -1,8 +1,9 @@
-/* ===== RESET ===== */
+/* RESET */
 * {
   box-sizing: border-box;
 }
 
+/* BODY */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -10,76 +11,95 @@ body {
   color: #ffffff;
 }
 
-/* ===== CONTAINER ===== */
+/* CONTAINER */
 .container {
   max-width: 720px;
   margin: auto;
   padding: 20px;
 }
 
-/* ===== HEADINGS ===== */
+/* HEADINGS */
 h1 {
   color: #22c55e;
+  margin-bottom: 10px;
 }
 
-h3 {
-  margin-top: 20px;
+h2 {
+  margin-top: 25px;
 }
 
-/* ===== INPUTS ===== */
-input {
+/* INPUTS */
+input,
+textarea {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
+  padding: 12px;
+  margin: 8px 0;
   border-radius: 8px;
   border: none;
-  font-size: 16px;
+  font-size: 15px;
 }
 
-/* ===== BUTTONS (🔥 CLICKABLE FIX) ===== */
+/* BUTTONS — 100% CLICKABLE */
 button {
   width: 100%;
   padding: 14px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
+  margin-top: 10px;
   background: #22c55e;
   color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
 
-  /* 🔥 MOST IMPORTANT FIX */
+  /* ✅ CLICK SAFETY */
   position: relative;
-  z-index: 10;
+  z-index: 1;
   pointer-events: auto;
 }
 
 button:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
-/* ===== PRODUCT ROW ===== */
+/* PRODUCTS */
 .product-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 8px;
-  margin-bottom: 10px;
 }
 
-/* ===== FOOTER ===== */
-.footer {
+/* INVOICE */
+#invoice {
+  display: none;
+  margin-top: 30px;
+  background: #ffffff;
+  color: #000;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
   text-align: center;
-  opacity: 0.7;
-  margin-top: 20px;
 }
 
-/* ===== REMOVE ALL OVERLAYS ===== */
-.overlay,
-.background,
-.bg,
-.hero,
-header,
-.logo {
-  pointer-events: none !important;
+th {
+  background: #f1f5f9;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .product-row {
+    grid-template-columns: 1fr;
+  }
 }
