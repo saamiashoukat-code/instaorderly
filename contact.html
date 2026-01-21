@@ -1,50 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Contact – InstaOrderly</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact Us | InstaOrderly – Instagram Invoice Generator</title>
+
+<meta name="description" content="Contact InstaOrderly for support, feedback, or business inquiries. Get help with Instagram invoice generator and Pro plans.">
+
+<meta name="keywords" content="contact instaorderly, instagram invoice generator support, invoice generator pakistan contact">
+
 <style>
 body{
   margin:0;
-  font-family:Arial;
-  background:#020617;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(135deg,#020617,#0f172a);
   color:#fff;
 }
-.container{
-  max-width:400px;
-  margin:80px auto;
-  background:#0b1220;
-  padding:30px;
-  border-radius:14px;
+
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 24px;
+  background:rgba(2,6,23,0.9);
+  position:sticky;
+  top:0;
 }
-input,textarea,button{
+.navbar img{height:36px}
+.navbar a{
+  color:#cbd5f5;
+  text-decoration:none;
+  margin-left:18px;
+  font-size:14px;
+}
+.navbar a:hover{color:#22c55e}
+
+/* PAGE */
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:80px 20px;
+  text-align:center;
+}
+
+h1{
+  font-size:36px;
+  color:#60a5fa;
+}
+
+.subtitle{
+  color:#cbd5f5;
+  max-width:700px;
+  margin:14px auto 40px;
+  font-size:18px;
+}
+
+/* FORM */
+form{
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:18px;
+  padding:30px;
+  text-align:left;
+}
+
+label{
+  font-size:14px;
+  display:block;
+  margin-top:18px;
+  color:#cbd5f5;
+}
+
+input, textarea{
   width:100%;
   padding:12px;
-  margin-top:10px;
-  border-radius:8px;
+  border-radius:10px;
   border:none;
+  margin-top:6px;
+  font-size:14px;
 }
+
+textarea{min-height:120px}
+
 button{
-  background:#22c55e;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
   font-weight:bold;
+  font-size:15px;
+  margin-top:20px;
+  cursor:pointer;
+  background:#22c55e;
+  color:#000;
+}
+
+/* SEO SECTION */
+.seo{
+  margin-top:60px;
+  color:#cbd5f5;
+  font-size:14px;
+  line-height:1.7;
+  text-align:left;
+}
+
+.seo h2{
+  color:#22c55e;
+  text-align:center;
+}
+
+.seo h3{
+  color:#60a5fa;
+  margin-top:30px;
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid #1e293b;
+  text-align:center;
+  padding:30px 20px;
+  color:#94a3b8;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
-<h2>Contact Us</h2>
 
-<form action="https://formsubmit.co/saamiashoukat@gmail.com" method="POST">
-<input type="hidden" name="_next" value="thankyou.html">
-<input type="hidden" name="_captcha" value="false">
-
-<input name="name" placeholder="Your Name" required>
-<input name="email" type="email" placeholder="Email" required>
-<textarea name="message" placeholder="Message"></textarea>
-
-<button type="submit">Send</button>
-</form>
+<!-- NAVBAR -->
+<div class="navbar">
+  <img src="logo.png" alt="InstaOrderly Contact Page">
+  <div>
+    <a href="index.html">Home</a>
+    <a href="instagram-invoice-generator.html">Tool</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="contact.html">Contact</a>
+  </div>
 </div>
+
+<!-- CONTENT -->
+<div class="container">
+  <h1>Contact InstaOrderly</h1>
+  <p class="subtitle">
+    Have questions, feedback, or need help with the invoice generator?
+    We’re here to help Instagram sellers grow.
+  </p>
+
+  <!-- CONTACT FORM -->
+  <form method="POST" data-netlify="true" name="contact">
+    <input type="hidden" name="form-name" value="contact">
+
+    <label>Your Name</label>
+    <input type="text" name="name" required>
+
+    <label>Email Address</label>
+    <input type="email" name="email" required>
+
+    <label>Message</label>
+    <textarea name="message" required></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+
+  <!-- SEO TEXT -->
+  <div class="seo">
+    <h2>Get Support for Instagram Invoice Generator</h2>
+
+    <p>
+      InstaOrderly is built for Instagram sellers, WhatsApp business owners,
+      and small online businesses in Pakistan. If you need help using our
+      invoice generator or have questions about Pro pricing, feel free to
+      contact us using the form above.
+    </p>
+
+    <h3>Contact InstaOrderly Support</h3>
+    <p>
+      We aim to respond to all messages as quickly as possible. Whether you
+      need technical help, feature suggestions, or business inquiries,
+      our support team is here to assist you.
+    </p>
+
+    <h3>Invoice Generator Support in Pakistan</h3>
+    <p>
+      InstaOrderly provides local-friendly support for Pakistani sellers.
+      Our goal is to make invoicing simple, fast, and professional for
+      Instagram and WhatsApp sellers.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  <p>
+    <strong>InstaOrderly™</strong> – Contact our support team for help with
+    Instagram invoice generator and Pro plans.
+  </p>
+</footer>
+
 </body>
 </html>
