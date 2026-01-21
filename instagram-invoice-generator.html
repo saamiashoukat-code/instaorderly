@@ -96,7 +96,12 @@ button{
 <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
 <button onclick="generateInvoice()">Generate Invoice</button>
 
-<div id="invoice" class="invoice hidden"></div>
+<div id="invoice" class="invoice hidden">
+
+<!-- BRAND LOGO -->
+<div style="text-align:center; margin-bottom:15px;">
+  <img src="logo.png" alt="Brand Logo" style="max-width:140px;" />
+</div>
 
 </div>
 
@@ -172,13 +177,38 @@ function generateInvoice(){
   document.getElementById('invoice').classList.remove('hidden');
 }
 
-function downloadPDF(){
-  html2pdf().from(document.getElementById('invoice')).save('invoice.pdf');
-}
+<script>
+function downloadPDF() {
+  const invoice = document.getElementById("invoice");
 
-function shareWhatsApp(){
-  let text="Invoice Total: "+document.querySelector("td b")?.innerText;
-  window.open(https://wa.me/?text=${encodeURIComponent(text)});
+  const opt = {
+    margin: 0.5,
+    filename: 'Instagram-Invoice.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(invoice).save();
+}
+</script>
+
+function shareWhatsApp() {
+  const name = document.getElementById("customerName").value;
+  const contact = document.getElementById("contactNumber").value;
+  const payment = document.getElementById("paymentMethod").value;
+
+  const total =
+    document.querySelector("table tr:last-child td:last-child")?.innerText || "";
+
+  const msg =
+    "Invoice\n" +
+    "Name: " + name + "\n" +
+    "Contact: " + contact + "\n" +
+    "Total: " + total + "\n" +
+    "Payment: " + payment;
+
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg));
 }
 </script>
 
