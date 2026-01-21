@@ -4,46 +4,43 @@
   <meta charset="UTF-8" />
   <title>Instagram Invoice Generator</title>
 
-  <!-- ✅ FIXED VIEWPORT (NO ZOOM BUG) -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- FIXED VIEWPORT (NO ZOOM BUG) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 
-  <!-- PDF Library -->
+  <!-- PDF LIBRARY -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-
 <body>
-  <div class="container">
 
+  <div class="container">
     <h1>Instagram Invoice Generator</h1>
 
     <h2>Customer Details</h2>
-
     <input id="customerName" placeholder="Customer Name" />
-    <input id="contactNumber" placeholder="Contact Number" />
-    <textarea id="address" placeholder="Delivery Address"></textarea>
+    <input id="customerContact" placeholder="Contact Number" />
+    <input id="customerAddress" placeholder="Delivery Address" />
 
     <h2>Products</h2>
-
-    <div id="products"></div>
-
     <button onclick="addProduct()">+ Add Product</button>
 
     <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)" />
 
     <button onclick="generateInvoice()">Generate Invoice</button>
-    <button onclick="downloadPDF()">Download PDF (Pro)</button>
+    <button onclick="downloadPDF()">Download PDF</button>
     <button onclick="shareWhatsApp()">Share on WhatsApp</button>
 
-    <!-- Invoice Preview -->
+    <hr />
+
+    <!-- INVOICE -->
     <div id="invoice">
       <h2>Invoice</h2>
-      <p><strong>Name:</strong> <span id="iName"></span></p>
-      <p><strong>Contact:</strong> <span id="iContact"></span></p>
-      <p><strong>Address:</strong> <span id="iAddress"></span></p>
-      <p><strong>Payment:</strong> <span id="iPayment"></span></p>
+      <p><b>Name:</b> <span id="iName"></span></p>
+      <p><b>Contact:</b> <span id="iContact"></span></p>
+      <p><b>Address:</b> <span id="iAddress"></span></p>
+      <p><b>Payment:</b> <span id="iPayment"></span></p>
 
       <table>
         <thead>
@@ -59,62 +56,9 @@
 
       <h3>Total: Rs <span id="grandTotal">0</span></h3>
     </div>
-
   </div>
 
-  <!-- ✅ CLEAN JAVASCRIPT (NO OVERLAY HACKS) -->
-  <script>
-    let products = [];
-
-    function addProduct() {
-      const index = products.length;
-      products.push({ name: "", price: 0, qty: 1 });
-
-      const div = document.createElement("div");
-      div.className = "product-row";
-      div.innerHTML = `
-        <input placeholder="Product" oninput="products[${index}].name=this.value">
-        <input type="number" placeholder="Price" oninput="products[${index}].price=+this.value">
-        <input type="number" placeholder="Qty" value="1" oninput="products[${index}].qty=+this.value">
-      `;
-      document.getElementById("products").appendChild(div);
-    }
-
-    function generateInvoice() {
-      document.getElementById("invoice").style.display = "block";
-
-      iName.innerText = customerName.value;
-      iContact.innerText = contactNumber.value;
-      iAddress.innerText = address.value;
-      iPayment.innerText = paymentMethod.value;
-
-      let body = "";
-      let total = 0;
-
-      products.forEach(p => {
-        const t = p.price * p.qty;
-        total += t;
-        body += `
-          <tr>
-            <td>${p.name}</td>
-            <td>${p.price}</td>
-            <td>${p.qty}</td>
-            <td>${t}</td>
-          </tr>`;
-      });
-
-      invoiceBody.innerHTML = body;
-      grandTotal.innerText = total;
-    }
-
-    function downloadPDF() {
-      html2pdf().from(document.getElementById("invoice")).save("invoice.pdf");
-    }
-
-    function shareWhatsApp() {
-      const msg = Invoice for ${customerName.value}\nTotal: Rs ${grandTotal.innerText};
-      window.open(https://wa.me/?text=${encodeURIComponent(msg)}, "_blank");
-    }
-  </script>
+  <!-- JS -->
+  <script src="invoice.js"></script>
 </body>
 </html>
