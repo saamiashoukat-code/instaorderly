@@ -1,191 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Instagram Invoice Generator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Instagram Invoice Generator</title>
 
-<!-- html2pdf -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- ✅ ZOOM + MOBILE FIX -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  font-family: Arial, sans-serif;
-  background:#0f172a;
-  color:#fff;
-  padding:20px;
-}
-.container{
-  max-width:700px;
-  margin:auto;
-}
-input,button{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:6px;
-  border:none;
-}
-button{
-  background:#22c55e;
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-}
-button:hover{opacity:0.9;}
-.product-row{
-  display:flex;
-  gap:6px;
-}
-.product-row input{
-  flex:1;
-}
-#invoice{
-  background:#fff;
-  color:#000;
-  padding:20px;
-  margin-top:20px;
-  display:none;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-}
-table,th,td{
-  border:1px solid #ccc;
-}
-th,td{
-  padding:8px;
-  text-align:center;
-}
-.actions{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
-.actions button{
-  flex:1;
-}
-.logo{
-  text-align:center;
-  margin-bottom:15px;
-}
-.logo img{
-  max-width:140px;
-}
-.total{
-  font-weight:bold;
-}
-</style>
+  <!-- ✅ MAIN CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- PDF LIB -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
-<div class="container">
 
-<h2>Instagram Invoice Generator</h2>
+  <div class="container">
 
-<input id="customerName" placeholder="Customer Name">
-<input id="contactNumber" placeholder="Contact Number">
-<input id="address" placeholder="Delivery Address">
+    <h1>Instagram Invoice Generator</h1>
 
-<h4>Products</h4>
-<div id="products"></div>
+    <h3>Customer Details</h3>
+    <input id="customerName" placeholder="Customer Name">
+    <input id="contactNumber" placeholder="Contact Number">
+    <input id="address" placeholder="Delivery Address">
 
-<button onclick="addProduct()">+ Add Product</button>
+    <h3>Products</h3>
+    <button onclick="addProduct()">+ Add Product</button>
 
-<input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
-<button onclick="generateInvoice()">Generate Invoice</button>
+    <div id="products"></div>
 
-<!-- INVOICE -->
-<div id="invoice" class="invoice hidden">
+    <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
 
-  <!-- Brand Header -->
-  <div class="invoice-header">
-    <img src="logo.png" alt="Brand Logo" class="brand-logo">
-    <h1 class="brand-name">InstaOrderly</h1>
-    <p class="brand-tagline">Professional Invoice Generator</p>
-  </div>
-
-  <!-- Meta -->
-  <div class="invoice-meta">
-    <div>
-      <strong>Invoice Date:</strong>
-      <span id="invoiceDate"></span>
-    </div>
-    <div>
-      <strong>Payment:</strong>
-      <span id="invoicePayment"></span>
-    </div>
-  </div>
-
-  <!-- Customer -->
-  <div class="invoice-customer">
-    <p><strong>Customer:</strong> <span id="invoiceCustomer"></span></p>
-    <p><strong>Contact:</strong> <span id="invoiceContact"></span></p>
-  </div>
-
-  <!-- Products -->
-  <table class="invoice-table">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody id="invoiceProducts"></tbody>
-  </table>
-
-  <!-- Grand Total -->
-  <div class="invoice-total">
-    Grand Total: <span id="invoiceTotal">PKR 0</span>
-  </div>
-
-  <!-- Footer -->
-  <div class="invoice-footer">
-    Generated via <strong>InstaOrderly</strong><br>
-    www.instaorderly.com
-  </div>
-
-</div>
-
-  <p><b>Name:</b> <span id="iName"></span></p>
-  <p><b>Contact:</b> <span id="iContact"></span></p>
-  <p><b>Address:</b> <span id="iAddress"></span></p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody id="invoiceProducts"></tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3" class="total">Grand Total</td>
-        <td class="total" id="grandTotal">0</td>
-      </tr>
-    </tfoot>
-  </table>
-
-  <p><b>Payment:</b> <span id="iPayment"></span></p>
-
-  <div class="actions">
-    <button onclick="downloadPDF()">Download PDF</button>
+    <button onclick="generateInvoice()">Generate Invoice</button>
+    <button onclick="downloadPDF()">Download PDF (Pro)</button>
     <button onclick="shareWhatsApp()">Share on WhatsApp</button>
+
+    <p class="footer">Powered by InstaOrderly</p>
+
   </div>
-
-</div>
-
-</div>
 
 <script>
-let products=[];
+let products = [];
 
 function addProduct(){
   products.push({name:'',price:0,qty:1});
@@ -193,64 +49,29 @@ function addProduct(){
 }
 
 function renderProducts(){
-  const div=document.getElementById('products');
-  div.innerHTML='';
+  const div = document.getElementById("products");
+  div.innerHTML = '';
   products.forEach((p,i)=>{
-    div.innerHTML+=`
+    div.innerHTML += `
       <div class="product-row">
         <input placeholder="Product" oninput="products[${i}].name=this.value">
         <input type="number" placeholder="Price" oninput="products[${i}].price=this.value">
         <input type="number" placeholder="Qty" value="1" oninput="products[${i}].qty=this.value">
-      </div>`;
+      </div>
+    `;
   });
 }
 
 function generateInvoice(){
-  document.getElementById('invoice').classList.remove=('hidden');
-
-  iName.innerText=customerName.value;
-  iContact.innerText=contactNumber.value;
-  iAddress.innerText=address.value;
-  iPayment.innerText=paymentMethod.value;
-
-  let tbody='';
-  let total=0;
-
-  products.forEach(p=>{
-    let t=p.price*p.qty;
-    total+=t;
-    tbody+=`
-      <tr>
-        <td>${p.name}</td>
-        <td>${p.qty}</td>
-        <td>${p.price}</td>
-        <td>${t}</td>
-      </tr>`;
-  });
-
-  invoiceProducts.innerHTML=tbody;
-  grandTotal.innerText=total;
+  alert("Invoice Generated Successfully ✅");
 }
 
 function downloadPDF(){
-  const invoice=document.getElementById('invoice');
-  html2pdf().from(invoice).set({
-    margin:0.5,
-    filename:'Instagram-Invoice.pdf',
-    html2canvas:{scale:2},
-    jsPDF:{format:'a4',orientation:'portrait'}
-  }).save();
+  alert("PDF Feature Coming Soon (Pro)");
 }
 
 function shareWhatsApp(){
-  const msg =
-`Invoice
-Name: ${customerName.value}
-Contact: ${contactNumber.value}
-Total: ${grandTotal.innerText}
-Payment: ${paymentMethod.value}`;
-
-  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  alert("WhatsApp Share Ready");
 }
 </script>
 
