@@ -10,19 +10,12 @@ function addProduct() {
     return;
   }
 
-  products.push({
-    name: name,
-    price: price,
-    qty: qty
-  });
+  products.push({ name, price, qty });
 
-  // clear inputs
   document.getElementById("productName").value = "";
   document.getElementById("productPrice").value = "";
   document.getElementById("productQty").value = "";
-}
 
-  products.push({ name, price, qty });
   alert("Product added");
 }
 
