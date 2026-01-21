@@ -1,97 +1,63 @@
-/* =========================
-   SAFE GLOBAL BASE STYLE
-   ========================= */
-
 * {
   box-sizing: border-box;
-}
-
-html, body {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #ffffff;
-  overflow-x: hidden;
-  zoom: 1;
 }
 
-/* =========================
-   BASIC LAYOUT
-   ========================= */
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #fff;
+}
 
 .container {
-  max-width: 900px;
-  margin: auto;
+  max-width: 700px;
+  margin: 20px auto;
   padding: 20px;
 }
 
-/* =========================
-   INPUTS & BUTTONS (CLICK FIX)
-   ========================= */
+h1, h2 {
+  margin-bottom: 10px;
+}
 
-input,
-textarea,
-select,
-button {
+input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
   border: none;
-  font-size: 16px;
-
-  /* 🔥 MOST IMPORTANT CLICK FIX */
-  position: relative;
-  z-index: 1;
-  pointer-events: auto;
 }
 
 button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 6px;
   background: #22c55e;
-  color: #000;
   font-weight: bold;
   cursor: pointer;
 }
 
-button:active {
-  transform: scale(0.97);
+button:hover {
+  background: #16a34a;
 }
 
-/* =========================
-   REMOVE ANY CLICK BLOCKERS
-   ========================= */
-
-.overlay,
-.background,
-.hero,
-.header,
-.logo,
-.bg {
-  pointer-events: none;
+hr {
+  margin: 20px 0;
 }
 
-/* =========================
-   IMAGE / LOGO FIX
-   ========================= */
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-/* =========================
-   LINKS
-   ========================= */
-
-a {
-  color: #22c55e;
-  text-decoration: none;
+table, th, td {
+  border: 1px solid #334155;
 }
 
-a:hover {
-  text-decoration: underline;
+th, td {
+  padding: 8px;
+  text-align: center;
 }
