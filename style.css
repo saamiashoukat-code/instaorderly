@@ -1,81 +1,136 @@
-/* ===== RESET ===== */
+/* ===============================
+   InstaOrderly – FINAL STABLE CSS
+   =============================== */
+
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html, body {
   margin: 0;
   padding: 0;
+}
+
+/* Base */
+html, body {
   width: 100%;
   height: 100%;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(135deg, #0b1f2a, #06141b);
-  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0f172a;
+  color: #ffffff;
+  pointer-events: auto !important;
 }
 
-/* ===== MAIN CONTAINER ===== */
+/* Container */
 .container {
-  max-width: 480px;
-  margin: auto;
+  max-width: 720px;
+  margin: 0 auto;
   padding: 20px;
   position: relative;
-  z-index: 10;
+  z-index: 1;
 }
 
-/* ===== HEADINGS ===== */
+/* Headings */
 h1, h2, h3 {
-  color: #2ecc71;
+  margin-bottom: 12px;
+  color: #22c55e;
 }
 
-/* ===== INPUTS ===== */
-input, textarea {
+/* Inputs */
+input,
+textarea,
+select {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
   border-radius: 12px;
   border: none;
-  font-size: 15px;
+  font-size: 16px;
+  background: #ffffff;
+  color: #000000;
+  outline: none;
+
+  /* CRITICAL */
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 5;
 }
 
-/* ===== BUTTONS (CRITICAL FIX) ===== */
+/* Buttons */
 button {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
   border-radius: 14px;
   border: none;
   font-size: 16px;
   font-weight: 600;
-  background: #2ecc71;
-  color: #000;
+  background: #22c55e;
+  color: #000000;
   cursor: pointer;
 
-  /* 🔥 THIS IS THE FIX */
-  position: relative;
-  z-index: 999999;
+  /* CRITICAL */
   pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
+}
+
+button:hover {
+  background: #16a34a;
 }
 
 button:active {
   transform: scale(0.98);
 }
 
-/* ===== REMOVE ANY OVERLAY ===== */
-.overlay,
-.background,
-.gradient,
-.hero,
-.bg,
-body::before,
-body::after {
-  display: none !important;
-  pointer-events: none !important;
+/* Product Row */
+.product-row {
+  display: grid;
+  grid-template-columns: 1fr 100px 80px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-/* ===== FOOTER ===== */
+/* Invoice Box */
+#invoice {
+  background: #ffffff;
+  color: #000000;
+  padding: 20px;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Footer */
 .footer {
   text-align: center;
-  color: #aaa;
+  font-size: 13px;
   margin-top: 20px;
+  color: #94a3b8;
+}
+
+/* ===============================
+   🚫 NO OVERLAYS – EVER
+   =============================== */
+
+/* Kill all pseudo layers */
+body::before,
+body::after,
+.container::before,
+.container::after {
+  display: none !important;
+}
+
+/* Ensure NOTHING blocks clicks */
+* {
+  pointer-events: auto;
 }
