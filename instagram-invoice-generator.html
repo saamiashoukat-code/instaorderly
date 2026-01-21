@@ -1,79 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Instagram Invoice Generator</title>
 
-  <!-- ✅ ZOOM + MOBILE FIX -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ✅ FIXED VIEWPORT (NO ZOOM BUG) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-  <!-- ✅ MAIN CSS -->
-  <link rel="stylesheet" href="style.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 
-  <!-- PDF LIB -->
+  <!-- PDF Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
-
   <div class="container">
 
     <h1>Instagram Invoice Generator</h1>
 
-    <h3>Customer Details</h3>
-    <input id="customerName" placeholder="Customer Name">
-    <input id="contactNumber" placeholder="Contact Number">
-    <input id="address" placeholder="Delivery Address">
+    <h2>Customer Details</h2>
 
-    <h3>Products</h3>
-    <button onclick="addProduct()">+ Add Product</button>
+    <input id="customerName" placeholder="Customer Name" />
+    <input id="contactNumber" placeholder="Contact Number" />
+    <textarea id="address" placeholder="Delivery Address"></textarea>
+
+    <h2>Products</h2>
 
     <div id="products"></div>
 
-    <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
+    <button onclick="addProduct()">+ Add Product</button>
+
+    <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)" />
 
     <button onclick="generateInvoice()">Generate Invoice</button>
     <button onclick="downloadPDF()">Download PDF (Pro)</button>
     <button onclick="shareWhatsApp()">Share on WhatsApp</button>
 
-    <p class="footer">Powered by InstaOrderly</p>
+    <!-- Invoice Preview -->
+    <div id="invoice">
+      <h2>Invoice</h2>
+      <p><strong>Name:</strong> <span id="iName"></span></p>
+      <p><strong>Contact:</strong> <span id="iContact"></span></p>
+      <p><strong>Address:</strong> <span id="iAddress"></span></p>
+      <p><strong>Payment:</strong> <span id="iPayment"></span></p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="invoiceBody"></tbody>
+      </table>
+
+      <h3>Total: Rs <span id="grandTotal">0</span></h3>
+    </div>
 
   </div>
 
-<script>
-let products = [];
+  <!-- ✅ CLEAN JAVASCRIPT (NO OVERLAY HACKS) -->
+  <script>
+    let products = [];
 
-function addProduct(){
-  products.push({name:'',price:0,qty:1});
-  renderProducts();
-}
+    function addProduct() {
+      const index = products.length;
+      products.push({ name: "", price: 0, qty: 1 });
 
-function renderProducts(){
-  const div = document.getElementById("products");
-  div.innerHTML = '';
-  products.forEach((p,i)=>{
-    div.innerHTML += `
-      <div class="product-row">
-        <input placeholder="Product" oninput="products[${i}].name=this.value">
-        <input type="number" placeholder="Price" oninput="products[${i}].price=this.value">
-        <input type="number" placeholder="Qty" value="1" oninput="products[${i}].qty=this.value">
-      </div>
-    `;
-  });
-}
+      const div = document.createElement("div");
+      div.className = "product-row";
+      div.innerHTML = `
+        <input placeholder="Product" oninput="products[${index}].name=this.value">
+        <input type="number" placeholder="Price" oninput="products[${index}].price=+this.value">
+        <input type="number" placeholder="Qty" value="1" oninput="products[${index}].qty=+this.value">
+      `;
+      document.getElementById("products").appendChild(div);
+    }
 
-function generateInvoice(){
-  alert("Invoice Generated Successfully ✅");
-}
+    function generateInvoice() {
+      document.getElementById("invoice").style.display = "block";
 
-function downloadPDF(){
-  alert("PDF Feature Coming Soon (Pro)");
-}
+      iName.innerText = customerName.value;
+      iContact.innerText = contactNumber.value;
+      iAddress.innerText = address.value;
+      iPayment.innerText = paymentMethod.value;
 
-function shareWhatsApp(){
-  alert("WhatsApp Share Ready");
-}
-</script>
+      let body = "";
+      let total = 0;
 
+      products.forEach(p => {
+        const t = p.price * p.qty;
+        total += t;
+        body += `
+          <tr>
+            <td>${p.name}</td>
+            <td>${p.price}</td>
+            <td>${p.qty}</td>
+            <td>${t}</td>
+          </tr>`;
+      });
+
+      invoiceBody.innerHTML = body;
+      grandTotal.innerText = total;
+    }
+
+    function downloadPDF() {
+      html2pdf().from(document.getElementById("invoice")).save("invoice.pdf");
+    }
+
+    function shareWhatsApp() {
+      const msg = Invoice for ${customerName.value}\nTotal: Rs ${grandTotal.innerText};
+      window.open(https://wa.me/?text=${encodeURIComponent(msg)}, "_blank");
+    }
+  </script>
 </body>
 </html>
