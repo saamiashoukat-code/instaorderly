@@ -2,213 +2,208 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Instagram Invoice Generator | InstaOrderly</title>
+<title>Instagram Invoice Generator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Free Instagram Invoice Generator for WhatsApp & COD sellers in Pakistan. Create PDF invoices instantly.">
+
+<!-- html2pdf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body{
-  margin:0;
   font-family: Arial, sans-serif;
-  background:#0b1220;
+  background:#0f172a;
   color:#fff;
+  padding:20px;
 }
 .container{
-  max-width:850px;
+  max-width:700px;
   margin:auto;
-  padding:30px 20px;
 }
-h1,h2,h3{
-  color:#2ecc71;
-}
-input, textarea, button{
+input,button{
   width:100%;
   padding:12px;
-  margin:10px 0;
+  margin:8px 0;
   border-radius:6px;
   border:none;
-  font-size:16px;
-}
-input, textarea{
-  background:#fff;
-  color:#000;
 }
 button{
-  background:#2ecc71;
+  background:#22c55e;
   color:#000;
   font-weight:bold;
   cursor:pointer;
 }
-.products .row{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:10px;
-  margin-bottom:10px;
+button:hover{opacity:0.9;}
+.product-row{
+  display:flex;
+  gap:6px;
 }
-.invoice{
+.product-row input{
+  flex:1;
+}
+#invoice{
   background:#fff;
   color:#000;
-  padding:25px;
-  margin-top:30px;
+  padding:20px;
+  margin-top:20px;
+  display:none;
 }
-.hidden{display:none;}
-
-.invoice img{
-  max-width:120px;
-  margin-bottom:10px;
-}
-.invoice table{
+table{
   width:100%;
   border-collapse:collapse;
+  margin-top:10px;
 }
-.invoice th,.invoice td{
-  border:1px solid #333;
+table,th,td{
+  border:1px solid #ccc;
+}
+th,td{
   padding:8px;
   text-align:center;
 }
 .actions{
   display:flex;
   gap:10px;
-  margin-top:15px;
+  margin-top:10px;
 }
 .actions button{
   flex:1;
+}
+.logo{
+  text-align:center;
+  margin-bottom:15px;
+}
+.logo img{
+  max-width:140px;
+}
+.total{
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<h1>Instagram Invoice Generator</h1>
-<p>Create professional invoices for Instagram & WhatsApp orders.</p>
+<h2>Instagram Invoice Generator</h2>
 
-<h3>Customer Details</h3>
 <input id="customerName" placeholder="Customer Name">
 <input id="contactNumber" placeholder="Contact Number">
-<textarea id="address" placeholder="Delivery Address"></textarea>
+<input id="address" placeholder="Delivery Address">
 
-<h3>Products</h3>
-<div class="products" id="products"></div>
+<h4>Products</h4>
+<div id="products"></div>
+
 <button onclick="addProduct()">+ Add Product</button>
 
 <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
 <button onclick="generateInvoice()">Generate Invoice</button>
 
-<div id="invoice" class="invoice hidden">
+<!-- INVOICE -->
+<div id="invoice">
 
-<!-- BRAND LOGO -->
-<div style="text-align:center; margin-bottom:15px;">
-  <img src="logo.png" alt="Brand Logo" style="max-width:140px;" />
+  <div class="logo">
+    <img src="logo.png" alt="Brand Logo">
+  </div>
+
+  <p><b>Name:</b> <span id="iName"></span></p>
+  <p><b>Contact:</b> <span id="iContact"></span></p>
+  <p><b>Address:</b> <span id="iAddress"></span></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceProducts"></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" class="total">Grand Total</td>
+        <td class="total" id="grandTotal">0</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <p><b>Payment:</b> <span id="iPayment"></span></p>
+
+  <div class="actions">
+    <button onclick="downloadPDF()">Download PDF</button>
+    <button onclick="shareWhatsApp()">Share on WhatsApp</button>
+  </div>
+
 </div>
 
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-let products = [];
+let products=[];
 
 function addProduct(){
-  products.push({name:'', price:0, qty:1});
+  products.push({name:'',price:0,qty:1});
   renderProducts();
 }
 
 function renderProducts(){
-  const div = document.getElementById('products');
-  div.innerHTML = '';
+  const div=document.getElementById('products');
+  div.innerHTML='';
   products.forEach((p,i)=>{
-    div.innerHTML += `
-      <div class="row">
-        <input placeholder="Product Name" oninput="products[${i}].name=this.value">
-        <input type="number" placeholder="Price" oninput="products[${i}].price=+this.value">
-        <input type="number" placeholder="Qty" value="1" oninput="products[${i}].qty=+this.value">
-      </div>
-    `;
+    div.innerHTML+=`
+      <div class="product-row">
+        <input placeholder="Product" oninput="products[${i}].name=this.value">
+        <input type="number" placeholder="Price" oninput="products[${i}].price=this.value">
+        <input type="number" placeholder="Qty" value="1" oninput="products[${i}].qty=this.value">
+      </div>`;
   });
 }
 
 function generateInvoice(){
-  if(products.length===0){alert("Add at least one product");return;}
+  document.getElementById('invoice').style.display='block';
 
-  let total=0, rows='';
+  iName.innerText=customerName.value;
+  iContact.innerText=contactNumber.value;
+  iAddress.innerText=address.value;
+  iPayment.innerText=paymentMethod.value;
+
+  let tbody='';
+  let total=0;
+
   products.forEach(p=>{
-    let sub=p.price*p.qty;
-    total+=sub;
-    rows+=`
+    let t=p.price*p.qty;
+    total+=t;
+    tbody+=`
       <tr>
         <td>${p.name}</td>
         <td>${p.qty}</td>
         <td>${p.price}</td>
-        <td>${sub}</td>
+        <td>${t}</td>
       </tr>`;
   });
 
-  document.getElementById('invoice').innerHTML=`
-    <div style="text-align:center">
-      <img src="logo.png">
-      <h2>Invoice</h2>
-    </div>
-
-    <p><b>Name:</b> ${customerName.value}</p>
-    <p><b>Contact:</b> ${contactNumber.value}</p>
-    <p><b>Address:</b> ${address.value}</p>
-
-    <table>
-      <tr>
-        <th>Product</th><th>Qty</th><th>Price</th><th>Total</th>
-      </tr>
-      ${rows}
-      <tr>
-        <td colspan="3"><b>Grand Total</b></td>
-        <td><b>${total}</b></td>
-      </tr>
-    </table>
-
-    <p><b>Payment:</b> ${paymentMethod.value}</p>
-
-    <div class="actions">
-      <button onclick="downloadPDF()">Download PDF</button>
-      <button onclick="shareWhatsApp()">Share on WhatsApp</button>
-    </div>
-  `;
-
-  document.getElementById('invoice').classList.remove('hidden');
+  invoiceProducts.innerHTML=tbody;
+  grandTotal.innerText=total;
 }
 
-<script>
-function downloadPDF() {
-  const invoice = document.getElementById("invoice");
-
-  const opt = {
-    margin: 0.5,
-    filename: 'Instagram-Invoice.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-  };
-
-  html2pdf().set(opt).from(invoice).save();
+function downloadPDF(){
+  const invoice=document.getElementById('invoice');
+  html2pdf().from(invoice).set({
+    margin:0.5,
+    filename:'Instagram-Invoice.pdf',
+    html2canvas:{scale:2},
+    jsPDF:{format:'a4',orientation:'portrait'}
+  }).save();
 }
-</script>
 
-function shareWhatsApp() {
-  const name = document.getElementById("customerName").value;
-  const contact = document.getElementById("contactNumber").value;
-  const payment = document.getElementById("paymentMethod").value;
-
-  const total =
-    document.querySelector("table tr:last-child td:last-child")?.innerText || "";
-
+function shareWhatsApp(){
   const msg =
-    "Invoice\n" +
-    "Name: " + name + "\n" +
-    "Contact: " + contact + "\n" +
-    "Total: " + total + "\n" +
-    "Payment: " + payment;
+`Invoice
+Name: ${customerName.value}
+Contact: ${contactNumber.value}
+Total: ${grandTotal.innerText}
+Payment: ${paymentMethod.value}`;
 
-  window.open("https://wa.me/?text=" + encodeURIComponent(msg));
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 </script>
 
