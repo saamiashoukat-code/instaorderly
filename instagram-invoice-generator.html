@@ -206,7 +206,7 @@ function renderProducts(){
 }
 
 function generateInvoice(){
-  document.getElementById('invoice').style.display='block';
+  document.getElementById('invoice').classList.remove=('hidden');
 
   iName.innerText=customerName.value;
   iContact.innerText=contactNumber.value;
