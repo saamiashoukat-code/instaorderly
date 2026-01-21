@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pricing | InstaOrderly™</title>
+
+<title>Pricing | Instagram Invoice Generator Pro – InstaOrderly</title>
+
+<meta name="description" content="Affordable pricing for Instagram invoice generator. Free plan available. Upgrade to InstaOrderly Pro for unlimited invoices and branding removal.">
+
+<meta name="keywords" content="instagram invoice generator pricing, invoice generator pro, invoice generator pakistan price, branded invoice generator">
 
 <style>
 body{
@@ -20,7 +25,8 @@ body{
   align-items:center;
   padding:16px 24px;
   background:rgba(2,6,23,0.9);
-  backdrop-filter:blur(10px);
+  position:sticky;
+  top:0;
 }
 .navbar img{height:36px}
 .navbar a{
@@ -31,36 +37,38 @@ body{
 }
 .navbar a:hover{color:#22c55e}
 
-/* HERO */
-.hero{
+/* PAGE */
+.container{
+  max-width:1000px;
+  margin:0 auto;
+  padding:80px 20px;
   text-align:center;
-  padding:70px 20px 40px;
-}
-.hero h1{
-  font-size:36px;
-  color:#60a5fa;
-}
-.hero p{
-  color:#cbd5f5;
-  font-size:16px;
 }
 
-/* PRICING */
+h1{
+  font-size:38px;
+  color:#60a5fa;
+}
+
+.subtitle{
+  color:#cbd5f5;
+  max-width:700px;
+  margin:14px auto 50px;
+  font-size:18px;
+}
+
+/* PRICING CARDS */
 .pricing{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-  max-width:900px;
-  margin:40px auto;
-  padding:0 20px;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
 }
 
 .card{
   background:#020617;
   border:1px solid #1e293b;
-  border-radius:16px;
-  padding:28px;
-  text-align:center;
+  border-radius:18px;
+  padding:30px;
 }
 
 .card h2{
@@ -70,36 +78,36 @@ body{
 
 .price{
   font-size:36px;
-  margin:10px 0;
-}
-.price span{
-  font-size:14px;
-  color:#94a3b8;
-}
-
-ul{
-  list-style:none;
-  padding:0;
+  font-weight:bold;
   margin:20px 0;
 }
-ul li{
-  margin:10px 0;
-  font-size:14px;
+
+.card ul{
+  list-style:none;
+  padding:0;
   color:#cbd5f5;
+  text-align:left;
 }
 
-.btn{
-  display:inline-block;
-  margin-top:16px;
-  padding:14px 26px;
+.card ul li{
+  padding:8px 0;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
   border-radius:12px;
   font-weight:bold;
-  text-decoration:none;
+  font-size:15px;
+  margin-top:20px;
+  cursor:pointer;
 }
 
 .free{
-  background:#1f2937;
+  background:#0f172a;
   color:#fff;
+  border:1px solid #22c55e;
 }
 
 .pro{
@@ -107,13 +115,32 @@ ul li{
   color:#000;
 }
 
+/* SEO SECTION */
+.seo{
+  margin-top:80px;
+  text-align:left;
+  color:#cbd5f5;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.seo h2{
+  color:#22c55e;
+  text-align:center;
+}
+
+.seo h3{
+  color:#60a5fa;
+  margin-top:30px;
+}
+
 /* FOOTER */
 footer{
+  border-top:1px solid #1e293b;
   text-align:center;
   padding:30px 20px;
-  font-size:14px;
   color:#94a3b8;
-  border-top:1px solid #1e293b;
+  font-size:14px;
 }
 </style>
 </head>
@@ -122,7 +149,7 @@ footer{
 
 <!-- NAVBAR -->
 <div class="navbar">
-  <img src="logo.png" alt="InstaOrderly Logo">
+  <img src="logo.png" alt="InstaOrderly Pricing Page">
   <div>
     <a href="index.html">Home</a>
     <a href="instagram-invoice-generator.html">Tool</a>
@@ -131,49 +158,91 @@ footer{
   </div>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Simple Pricing</h1>
-  <p>Start free. Upgrade only when your business grows.</p>
-</section>
+<!-- CONTENT -->
+<div class="container">
+  <h1>Simple & Affordable Pricing</h1>
+  <p class="subtitle">
+    Start free. Upgrade when your Instagram business grows.
+    Affordable pricing designed specially for sellers in Pakistan.
+  </p>
 
-<!-- PRICING CARDS -->
-<section class="pricing">
+  <!-- PRICING PLANS -->
+  <div class="pricing">
 
-  <!-- FREE -->
-  <div class="card">
-    <h2>FREE</h2>
-    <div class="price">PKR 0<br><span>/ month</span></div>
-    <ul>
-      <li>✔ 100 invoices / month</li>
-      <li>✔ Invoice preview</li>
-      <li>✔ WhatsApp sharing</li>
-      <li>✔ PDF download</li>
-      <li>✖ Remove branding</li>
-    </ul>
-    <a class="btn free" href="instagram-invoice-generator.html">
-      Start Free
-    </a>
+    <!-- FREE -->
+    <div class="card">
+      <h2>Free</h2>
+      <div class="price">PKR 0</div>
+      <ul>
+        <li>✔ 100 invoices per month</li>
+        <li>✔ WhatsApp invoice sharing</li>
+        <li>✔ PDF invoice download</li>
+        <li>✔ Cash on Delivery invoices</li>
+        <li>✖ InstaOrderly branding remains</li>
+      </ul>
+      <button class="free" onclick="location.href='instagram-invoice-generator.html'">
+        Use Free Tool
+      </button>
+    </div>
+
+    <!-- PRO -->
+    <div class="card">
+      <h2>Pro ⭐</h2>
+      <div class="price">PKR 1,999 / month</div>
+      <ul>
+        <li>✔ Unlimited invoices</li>
+        <li>✔ Remove InstaOrderly branding</li>
+        <li>✔ Professional invoice PDFs</li>
+        <li>✔ Priority features</li>
+        <li>✔ Best for growing sellers</li>
+      </ul>
+      <button class="pro">
+        Upgrade to Pro
+      </button>
+    </div>
+
   </div>
 
-  <!-- PRO -->
-  <div class="card">
-    <h2>PRO</h2>
-    <div class="price">PKR 1,999<br><span>/ month</span></div>
-    <ul>
-      <li>✔ Unlimited invoices</li>
-      <li>✔ No branding on PDF</li>
-      <li>✔ Priority features</li>
-      <li>✔ Future updates</li>
-      <li>✔ Email support</li>
-    </ul>
-    <a class="btn pro" href="contact.html">
-      Upgrade to Pro
-    </a>
+  <!-- SEO TEXT -->
+  <div class="seo">
+    <h2>Affordable Pricing for Instagram Invoice Generator</h2>
+
+    <p>
+      InstaOrderly offers simple and transparent pricing for Instagram sellers,
+      WhatsApp business owners, and small online businesses. Our pricing plans are
+      designed to help sellers start free and upgrade when their business grows.
+    </p>
+
+    <h3>Free Invoice Generator for Beginners</h3>
+    <p>
+      The free plan is ideal for new Instagram sellers in Pakistan. You can create
+      up to 100 invoices per month, share invoices on WhatsApp, and download PDF
+      invoices without any cost.
+    </p>
+
+    <h3>Pro Invoice Generator for Serious Sellers</h3>
+    <p>
+      The Pro plan is built for sellers who want unlimited invoices and a
+      professional brand image. Removing InstaOrderly branding helps you look
+      more professional and trustworthy to your customers.
+    </p>
+
+    <h3>Invoice Generator Pricing in Pakistan</h3>
+    <p>
+      InstaOrderly pricing is optimized for the Pakistan market, making it one of
+      the most affordable invoice generators for small businesses and home-based
+      sellers.
+    </p>
   </div>
 
-</section>
+</div>
 
 <footer>
-  © 2026 InstaOrderly™ · Built for Pakistani sellers 🇵🇰
+  <p>
+    <strong>InstaOrderly™</strong> – Affordable Instagram invoice generator for
+    online sellers in Pakistan.
+  </p>
 </footer>
+
+</body>
+</html>
