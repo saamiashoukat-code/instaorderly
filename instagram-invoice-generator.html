@@ -1,164 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Instagram Invoice Generator | InstaOrderly</title>
+  <meta charset="UTF-8">
+  <title>Instagram Invoice Generator – Free & Pro | InstaOrderly</title>
 
-<meta name="description" content="Free Instagram Invoice Generator for WhatsApp & COD sellers in Pakistan. Create professional PDF invoices instantly.">
+  <!-- SEO -->
+  <meta name="description" content="Free Instagram invoice generator for Pakistani online sellers. Create professional PDF invoices, WhatsApp share, COD & bank payments.">
+  <meta name="keywords" content="instagram invoice generator, whatsapp invoice, pdf invoice pakistan, cod invoice">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
+  <!-- STYLE -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #e5e7eb;
+      margin: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    h1, h2, h3 {
+      color: #22c55e;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #22c55e;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .product {
+      background: #111827;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+    .invoice-box {
+      background: #ffffff;
+      color: #000;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 8px;
+    }
 
-<!-- jsPDF CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    /* PRINT / PDF */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .invoice-box, .invoice-box * {
+        visibility: visible;
+      }
+      .invoice-box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<h1>Instagram Invoice Generator</h1>
-<p>Create professional invoices for Instagram & WhatsApp orders.</p>
+  <!-- NAV -->
+  <p>
+    <a href="/" style="color:#22c55e">Home</a> |
+    <a href="/pricing.html" style="color:#22c55e">Pricing</a> |
+    <a href="/contact.html" style="color:#22c55e">Contact</a>
+  </p>
 
-<!-- CUSTOMER DETAILS -->
-<input type="text" id="customerName" placeholder="Customer Name">
-<input type="text" id="contactNumber" placeholder="Contact Number">
-<textarea id="address" placeholder="Delivery Address"></textarea>
+  <h1>Instagram Invoice Generator</h1>
+  <p>Create professional invoices for Instagram & WhatsApp orders.</p>
 
-<hr>
+  <!-- CUSTOMER INFO -->
+  <input id="customerName" placeholder="Customer Name">
+  <input id="contactNumber" placeholder="Contact Number">
+  <textarea id="address" placeholder="Delivery Address"></textarea>
 
-<h3>Products</h3>
-<div id="products"></div>
+  <!-- PRODUCTS -->
+  <h3>Products</h3>
+  <div id="products">
+    <div class="product">
+      <input placeholder="Product Name">
+      <input placeholder="Price (PKR)" type="number">
+      <input placeholder="Quantity" type="number">
+    </div>
+  </div>
 
-<button onclick="addProduct()">+ Add Product</button>
+  <button onclick="addProduct()">+ Add Product</button>
 
-<hr>
+  <!-- PAYMENT -->
+  <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
 
-<input type="text" id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
+  <button onclick="generateInvoice()">Generate Invoice</button>
 
-<h3>Total Amount: PKR <span id="totalAmount">0</span></h3>
+  <!-- ACTIONS -->
+  <button onclick="downloadPDF()">Download PDF (Pro)</button>
+  <button onclick="shareWhatsApp()">Share on WhatsApp (Pro)</button>
+  <button onclick="activatePro()">Unlock Pro</button>
 
-<button onclick="generateInvoice()">Generate Invoice</button>
+  <!-- INVOICE -->
+  <div id="invoice" class="invoice-box" style="display:none"></div>
 
-<!-- INVOICE PREVIEW -->
-<div id="invoice" class="invoice-box" style="display:none; margin-top:30px;">
-<h2>Invoice</h2>
-
-<p><b>Customer:</b> <span id="iName"></span></p>
-<p><b>Contact:</b> <span id="iContact"></span></p>
-<p><b>Address:</b> <span id="iAddress"></span></p>
-<p><b>Payment:</b> <span id="iPayment"></span></p>
-
-<table border="1" width="100%" cellpadding="6">
-<thead>
-<tr>
-<th>Product</th>
-<th>Price</th>
-<th>Qty</th>
-<th>Total</th>
-</tr>
-</thead>
-<tbody id="invoiceItems"></tbody>
-</table>
-
-<h3>Grand Total: PKR <span id="iTotal"></span></h3>
-
-<button onclick="downloadPDF()">📄 Download PDF</button>
-<button onclick="shareWhatsApp()">📲 Share on WhatsApp</button>
-</div>
+  <!-- SEO TEXT -->
+  <h2>Free Instagram Invoice Generator for Online Sellers</h2>
+  <p>
+    InstaOrderly is built for Pakistani Instagram sellers, WhatsApp businesses,
+    and COD sellers who want fast, clean, professional invoices without Excel or Canva.
+  </p>
 
 </div>
 
+<!-- LOGIC -->
 <script>
-function addProduct() {
-  const div = document.createElement("div");
-  div.innerHTML = `
-    <input type="text" placeholder="Product Name" class="pname">
-    <input type="number" placeholder="Price" class="price" oninput="calculateTotal()">
-    <input type="number" placeholder="Qty" class="qty" oninput="calculateTotal()">
-  `;
-  document.getElementById("products").appendChild(div);
-}
+  function isPro() {
+    return localStorage.getItem("instaorderly_pro") === "true";
+  }
 
-function calculateTotal() {
-  let total = 0;
-  document.querySelectorAll("#products div").forEach(row => {
-    const price = row.querySelector(".price").value || 0;
-    const qty = row.querySelector(".qty").value || 0;
-    total += price * qty;
-  });
-  document.getElementById("totalAmount").innerText = total;
-}
+  function activatePro() {
+    const code = prompt("Enter Pro Code");
+    if (code === "INSTA-PRO-2025") {
+      localStorage.setItem("instaorderly_pro", "true");
+      alert("Pro Activated!");
+    } else {
+      alert("Invalid Code");
+    }
+  }
 
-function generateInvoice() {
-  document.getElementById("invoice").style.display = "block";
-
-  iName.innerText = customerName.value;
-  iContact.innerText = contactNumber.value;
-  iAddress.innerText = address.value;
-  iPayment.innerText = paymentMethod.value;
-
-  const tbody = document.getElementById("invoiceItems");
-  tbody.innerHTML = "";
-
-  let total = 0;
-  document.querySelectorAll("#products div").forEach(row => {
-    const name = row.querySelector(".pname").value;
-    const price = row.querySelector(".price").value;
-    const qty = row.querySelector(".qty").value;
-    const sub = price * qty;
-    total += sub;
-
-    tbody.innerHTML += `
-      <tr>
-        <td>${name}</td>
-        <td>${price}</td>
-        <td>${qty}</td>
-        <td>${sub}</td>
-      </tr>
+  function addProduct() {
+    if (!isPro() && document.querySelectorAll(".product").length >= 1) {
+      alert("Multiple products is a PRO feature");
+      location.href = "pricing.html";
+      return;
+    }
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `
+      <input placeholder="Product Name">
+      <input placeholder="Price (PKR)" type="number">
+      <input placeholder="Quantity" type="number">
     `;
-  });
+    document.getElementById("products").appendChild(div);
+  }
 
-  iTotal.innerText = total;
-}
+  function generateInvoice() {
+    let total = 0;
+    let rows = "";
 
-function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+    document.querySelectorAll(".product").forEach(p => {
+      const name = p.children[0].value;
+      const price = Number(p.children[1].value);
+      const qty = Number(p.children[2].value);
+      const sub = price * qty;
+      total += sub;
+      rows += <tr><td>${name}</td><td>${price}</td><td>${qty}</td><td>${sub}</td></tr>;
+    });
 
-  let y = 10;
-  doc.text("INVOICE", 10, y); y+=10;
+    document.getElementById("invoice").style.display = "block";
+    document.getElementById("invoice").innerHTML = `
+      <h2>Invoice</h2>
+      <p><b>Name:</b> ${customerName.value}</p>
+      <p><b>Contact:</b> ${contactNumber.value}</p>
+      <p><b>Address:</b> ${address.value}</p>
+      <table border="1" width="100%" cellpadding="8">
+        <tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th></tr>
+        ${rows}
+      </table>
+      <h3>Grand Total: PKR ${total}</h3>
+      <p><b>Payment:</b> ${paymentMethod.value}</p>
+    `;
+  }
 
-  doc.text(Customer: ${iName.innerText},10,y); y+=8;
-  doc.text(Contact: ${iContact.innerText},10,y); y+=8;
-  doc.text(Address: ${iAddress.innerText},10,y); y+=8;
-  doc.text(Payment: ${iPayment.innerText},10,y); y+=10;
+  function downloadPDF() {
+    if (!isPro()) {
+      alert("PDF download is PRO feature");
+      return;
+    }
+    window.print();
+  }
 
-  doc.text("Products:",10,y); y+=8;
-
-  document.querySelectorAll("#invoiceItems tr").forEach(row=>{
-    doc.text(row.innerText,10,y);
-    y+=8;
-  });
-
-  doc.text(Total: PKR ${iTotal.innerText},10,y+5);
-
-  doc.save("invoice.pdf");
-}
-
-function shareWhatsApp() {
-  let message = Invoice Details:%0A;
-  message += Customer: ${iName.innerText}%0A;
-  message += Contact: ${iContact.innerText}%0A;
-  message += Address: ${iAddress.innerText}%0A;
-  message += Payment: ${iPayment.innerText}%0A%0AProducts:%0A;
-
-  document.querySelectorAll("#invoiceItems tr").forEach(row=>{
-    message += row.innerText + %0A;
-  });
-
-  message += %0AGrand Total: PKR ${iTotal.innerText};
-
-  window.open(https://wa.me/?text=${message}, "_blank");
-}
+  function shareWhatsApp() {
+    if (!isPro()) {
+      alert("WhatsApp sharing is PRO feature");
+      return;
+    }
+    const msg = "Invoice generated via InstaOrderly";
+    window.open("https://wa.me/?text=" + encodeURIComponent(msg));
+  }
 </script>
 
 </body>
