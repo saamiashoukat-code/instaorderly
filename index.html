@@ -1,134 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>InstaOrderly – Instagram Invoice Generator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Free Instagram Invoice Generator for Pakistani Sellers">
+  <meta charset="UTF-8">
+  <title>Instagram Invoice Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<link rel="stylesheet" href="style.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- PDF Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-
 <body>
 
-<div class="container">
-
-<img src="logo.png" class="brand-logo">
-
-<h1>Instagram Invoice Generator</h1>
-
-<h3>Customer Details</h3>
-<input id="customerName" placeholder="Customer Name">
-<input id="contactNumber" placeholder="Contact Number">
-<textarea id="address" placeholder="Delivery Address"></textarea>
-
-<h3>Products</h3>
-<div id="products"></div>
-
-<button onclick="addProduct()">+ Add Product</button>
-
-<input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
-
-<button class="primary" onclick="generateInvoice()">Generate Invoice</button>
-
-<div id="invoice" class="invoice hidden"></div>
-
-<button onclick="downloadPDF()">Download PDF (Pro)</button>
-<button onclick="shareWhatsApp()">Share on WhatsApp</button>
-
-<p class="powered">Powered by InstaOrderly</p>
-
-</div>
-
+<!-- 🔁 LOAD TOOL DIRECTLY -->
 <script>
-let products = [];
-let isProUser = localStorage.getItem("plan") === "pro";
-
-function addProduct(){
-  products.push({name:'', price:0, qty:1});
-  renderProducts();
-}
-
-function renderProducts(){
-  const div = document.getElementById("products");
-  div.innerHTML = "";
-  products.forEach((p,i)=>{
-    div.innerHTML += `
-      <div class="row">
-        <input placeholder="Product" oninput="products[${i}].name=this.value">
-        <input type="number" placeholder="Price" oninput="products[${i}].price=this.value">
-        <input type="number" placeholder="Qty" value="1" oninput="products[${i}].qty=this.value">
-      </div>
-    `;
-  });
-}
-
-function generateInvoice(){
-  let total = 0;
-  let rows = "";
-  products.forEach(p=>{
-    let sub = p.price * p.qty;
-    total += sub;
-    rows += <tr><td>${p.name}</td><td>${p.qty}</td><td>${p.price}</td><td>${sub}</td></tr>;
-  });
-
-  document.getElementById("invoice").innerHTML = `
-    <h2>Invoice</h2>
-    <p><strong>Name:</strong> ${customerName.value}</p>
-    <p><strong>Contact:</strong> ${contactNumber.value}</p>
-    <p><strong>Address:</strong> ${address.value}</p>
-
-    <table>
-      <tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
-      ${rows}
-      <tr><td colspan="3"><strong>Grand Total</strong></td><td><strong>${total}</strong></td></tr>
-    </table>
-
-    <p><strong>Payment:</strong> ${paymentMethod.value}</p>
-  `;
-  document.getElementById("invoice").classList.remove("hidden");
-}
-
-function downloadPDF(){
-  if(!isProUser){ alert("Upgrade to Pro to download PDF"); return; }
-  window.print();
-}
-
-function shareWhatsApp(){
-  if(!isProUser){ alert("Upgrade to Pro to share on WhatsApp"); return; }
-  let msg = "Invoice generated via InstaOrderly";
-  window.open("https://wa.me/?text="+encodeURIComponent(msg));
-}
+  window.location.href = "instagram-invoice-generator.html";
 </script>
-<script>
-function shareWhatsApp(){
-  if(!isProUser){
-    alert("Upgrade to Pro to unlock WhatsApp sharing 🚀");
-    return;
-  }
 
-  let message = 🧾 *Invoice from InstaOrderly*\n\n;
-  message += Customer: ${customerName.value}\n;
-  message += Contact: ${contactNumber.value}\n;
-  message += Address: ${address.value}\n\n;
-  message += Products:\n;
-
-  let total = 0;
-
-  products.forEach(p=>{
-    let sub = p.price * p.qty;
-    total += sub;
-    message += • ${p.name} x${p.qty} — Rs ${sub}\n;
-  });
-
-  message += \n--------------------\n;
-  message += 💰 *Total Amount:* Rs ${total}\n;
-  message += 💳 Payment Method: ${paymentMethod.value}\n\n;
-  message += Thank you for shopping with us 🙏;
-
-  let url = "https://wa.me/?text=" + encodeURIComponent(message);
-  window.open(url, "_blank");
-}
-</script>
 </body>
 </html>
