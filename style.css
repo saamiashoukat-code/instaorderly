@@ -29,3 +29,27 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
+/* ===== PDF / PRINT INVOICE STYLE ===== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice-box, .invoice-box * {
+    visibility: visible;
+  }
+
+  .invoice-box {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #ffffff;
+    color: #000000;
+    padding: 20px;
+  }
+
+  button {
+    display: none;
+  }
+}
