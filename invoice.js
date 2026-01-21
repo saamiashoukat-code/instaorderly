@@ -16,7 +16,7 @@ function addProduct() {
     qty: qty
   });
 
-  // clear inputs after add
+  // clear inputs
   document.getElementById("productName").value = "";
   document.getElementById("productPrice").value = "";
   document.getElementById("productQty").value = "";
