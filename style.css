@@ -215,3 +215,26 @@ button:disabled{
     align-items:center;
   }
 }
+.hidden {
+  display: none !important;
+}
+
+.invoice {
+  position: relative;
+  z-index: 1;
+}
+
+/* Mobile click fix */
+button,
+input,
+textarea {
+  pointer-events: auto !important;
+  z-index: 10;
+  position: relative;
+}
+
+/* Remove any accidental overlays */
+body::before,
+body::after {
+  display: none !important;
+}
