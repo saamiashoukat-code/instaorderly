@@ -2,219 +2,150 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Instagram Invoice Generator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Instagram Invoice Generator | Free Invoice Tool for Sellers – InstaOrderly</title>
-
-<meta name="description" content="Create professional invoices for Instagram sellers. Free invoice generator for Pakistan with WhatsApp sharing & PDF download. Try InstaOrderly now.">
-
-<meta name="keywords" content="instagram invoice generator, invoice generator for instagram sellers, free invoice generator pakistan, whatsapp invoice generator, cod invoice generator">
+<meta name="description" content="Free Instagram Invoice Generator for WhatsApp & COD sellers in Pakistan">
 
 <style>
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:linear-gradient(135deg,#020617,#0f172a);
+  font-family: Arial, sans-serif;
+  background:#0b1220;
   color:#fff;
 }
-
-/* NAVBAR */
-.navbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 24px;
-  background:rgba(2,6,23,0.9);
-  position:sticky;
-  top:0;
+.container{
+  max-width:800px;
+  margin:auto;
+  padding:30px 20px;
 }
-.navbar img{height:36px}
-.navbar a{
-  color:#cbd5f5;
-  text-decoration:none;
-  margin-left:18px;
-  font-size:14px;
+h1{
+  color:#2ecc71;
 }
-.navbar a:hover{color:#22c55e}
-
-/* HERO */
-.hero{
-  text-align:center;
-  padding:90px 20px 60px;
+input, textarea, button{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:6px;
+  border:none;
+  font-size:16px;
 }
-.hero h1{
-  font-size:40px;
-  color:#60a5fa;
-}
-.hero p{
-  max-width:720px;
-  margin:16px auto;
-  font-size:18px;
-  color:#cbd5f5;
-}
-
-.cta{
-  margin-top:30px;
-}
-.cta a{
-  display:inline-block;
-  padding:16px 32px;
-  border-radius:14px;
-  margin:10px;
-  font-weight:bold;
-  text-decoration:none;
-}
-.primary{
-  background:#22c55e;
+input, textarea{
+  background:#fff;
   color:#000;
 }
-.secondary{
-  border:1px solid #22c55e;
-  color:#22c55e;
+button{
+  background:#2ecc71;
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-/* SECTIONS */
-.section{
-  max-width:1000px;
-  margin:0 auto;
-  padding:70px 20px;
-}
-.section h2{
-  text-align:center;
-  font-size:30px;
-  color:#22c55e;
-}
-.section p{
-  text-align:center;
-  color:#cbd5f5;
-  max-width:760px;
-  margin:14px auto;
-}
-
-/* FEATURES */
-.features{
+.products .row{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:24px;
-  margin-top:40px;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:10px;
 }
-.box{
-  background:#020617;
-  border:1px solid #1e293b;
-  border-radius:16px;
-  padding:24px;
+.invoice{
+  background:#fff;
+  color:#000;
+  padding:20px;
+  margin-top:30px;
 }
-.box h3{margin-top:0;color:#60a5fa}
-
-/* FOOTER */
-footer{
-  border-top:1px solid #1e293b;
-  text-align:center;
-  padding:30px 20px;
-  color:#94a3b8;
-  font-size:14px;
+.hidden{
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <img src="logo.png" alt="InstaOrderly Instagram Invoice Generator">
-  <div>
-    <a href="index.html">Home</a>
-    <a href="instagram-invoice-generator.html">Tool</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="contact.html">Contact</a>
-  </div>
+<div class="container">
+
+<h1>Instagram Invoice Generator</h1>
+
+<h3>Customer Details</h3>
+<input id="customerName" placeholder="Customer Name">
+<input id="contactNumber" placeholder="Contact Number">
+<textarea id="address" placeholder="Delivery Address"></textarea>
+
+<h3>Products</h3>
+<div class="products" id="products"></div>
+
+<button onclick="addProduct()">+ Add Product</button>
+
+<input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
+<button onclick="generateInvoice()">Generate Invoice</button>
+
+<div id="invoice" class="invoice hidden"></div>
+
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Instagram Invoice Generator for Sellers</h1>
-  <p>
-    Create professional invoices for Instagram & WhatsApp orders in seconds.
-    A free invoice generator for Pakistan-based online sellers.
-  </p>
+<script>
+let products = [];
 
-  <div class="cta">
-    <a class="primary" href="instagram-invoice-generator.html">Generate Free Invoice</a>
-    <a class="secondary" href="pricing.html">View Pricing</a>
-  </div>
-</section>
+function addProduct(){
+  const product = {name:'', price:0, qty:1};
+  products.push(product);
+  renderProducts();
+}
 
-<!-- PROBLEM / SOLUTION -->
-<section class="section">
-  <h2>Tired of Manual Invoices for Instagram Orders?</h2>
-  <p>
-    InstaOrderly helps Instagram sellers create clean, professional invoices
-    without Excel or Canva. Save time and look professional with every order.
-  </p>
-</section>
+function renderProducts(){
+  const div = document.getElementById('products');
+  div.innerHTML = '';
+  products.forEach((p,i)=>{
+    div.innerHTML += `
+      <div class="row">
+        <input placeholder="Product Name" oninput="products[${i}].name=this.value">
+        <input type="number" placeholder="Price" oninput="products[${i}].price=Number(this.value)">
+        <input type="number" placeholder="Qty" value="1" oninput="products[${i}].qty=Number(this.value)">
+      </div>
+    `;
+  });
+}
 
-<!-- FEATURES -->
-<section class="section">
-  <h2>Powerful Invoice Generator for Instagram Sellers</h2>
+function generateInvoice(){
+  if(products.length === 0){
+    alert("Please add at least one product");
+    return;
+  }
 
-  <div class="features">
-    <div class="box">
-      <h3>Free Invoice Generator</h3>
-      <p>Generate up to 100 invoices per month completely free.</p>
-    </div>
+  let total = 0;
+  let rows = '';
 
-    <div class="box">
-      <h3>WhatsApp Sharing</h3>
-      <p>Send invoices directly to customers via WhatsApp.</p>
-    </div>
+  products.forEach(p=>{
+    let subtotal = p.price * p.qty;
+    total += subtotal;
+    rows += `<tr>
+      <td>${p.name}</td>
+      <td>${p.qty}</td>
+      <td>${p.price}</td>
+      <td>${subtotal}</td>
+    </tr>`;
+  });
 
-    <div class="box">
-      <h3>PDF Download</h3>
-      <p>Download professional invoice PDFs instantly.</p>
-    </div>
+  document.getElementById('invoice').innerHTML = `
+    <h2>Invoice</h2>
+    <p><strong>Name:</strong> ${customerName.value}</p>
+    <p><strong>Contact:</strong> ${contactNumber.value}</p>
+    <p><strong>Address:</strong> ${address.value}</p>
 
-    <div class="box">
-      <h3>COD & Local Payments</h3>
-      <p>Create Cash on Delivery, EasyPaisa & JazzCash invoices.</p>
-    </div>
+    <table border="1" width="100%" cellpadding="8">
+      <tr>
+        <th>Product</th><th>Qty</th><th>Price</th><th>Total</th>
+      </tr>
+      ${rows}
+      <tr>
+        <td colspan="3"><strong>Grand Total</strong></td>
+        <td><strong>${total}</strong></td>
+      </tr>
+    </table>
 
-    <div class="box">
-      <h3>Mobile Friendly</h3>
-      <p>Works perfectly on mobile and desktop devices.</p>
-    </div>
+    <p><strong>Payment:</strong> ${paymentMethod.value}</p>
+  `;
 
-    <div class="box">
-      <h3>Built for Pakistan</h3>
-      <p>Designed specially for Pakistani Instagram sellers.</p>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="section">
-  <h2>How to Create an Invoice for Instagram Sales</h2>
-  <p>
-    Enter customer details → choose payment method → generate invoice →
-    share on WhatsApp or download PDF.
-  </p>
-</section>
-
-<!-- FINAL CTA -->
-<section class="section">
-  <h2>Create Your First Invoice in Seconds</h2>
-  <p>No signup required. Start using the best Instagram invoice generator today.</p>
-
-  <div class="cta">
-    <a class="primary" href="instagram-invoice-generator.html">Generate Free Invoice</a>
-  </div>
-</section>
-
-<footer>
-  <p>
-    <strong>InstaOrderly™</strong> is a free online invoice generator for Instagram
-    and WhatsApp sellers in Pakistan. Create professional invoices instantly.
-  </p>
-</footer>
+  document.getElementById('invoice').classList.remove('hidden');
+}
+</script>
 
 </body>
 </html>
