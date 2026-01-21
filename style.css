@@ -1,55 +1,129 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #0b1220;
-  color: #e5e7eb;
-  margin: 0;
-}
+/* =========================
+   PROFESSIONAL INVOICE UI
+   ========================= */
 
-.container {
+.invoice {
+  background: #ffffff;
   max-width: 900px;
-  margin: auto;
-  padding: 40px 20px;
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  font-family: 'Segoe UI', sans-serif;
+  color: #222;
 }
 
-h1, h2, h3 {
-  color: #22c55e;
+/* Header */
+.invoice-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 2px solid #f1f1f1;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-input, textarea, button {
+.brand-logo {
+  max-width: 90px;
+}
+
+.brand-name {
+  font-size: 26px;
+  margin: 0;
+  color: #2ecc71;
+}
+
+.brand-tagline {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+/* Meta */
+.invoice-meta {
+  display: flex;
+  justify-content: space-between;
+  background: #f9f9f9;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Customer */
+.invoice-customer {
+  background: #ffffff;
+  border-left: 4px solid #2ecc71;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+/* Table */
+.invoice-table {
   width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.invoice-table th {
+  background: #2ecc71;
+  color: #fff;
   padding: 12px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: none;
+  font-weight: 600;
+  text-align: left;
 }
 
-button {
-  background: #22c55e;
-  color: #000;
+.invoice-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.invoice-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Total */
+.invoice-total {
+  text-align: right;
+  font-size: 20px;
   font-weight: bold;
-  cursor: pointer;
+  margin-top: 10px;
 }
-/* ===== PDF / PRINT INVOICE STYLE ===== */
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.actions button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.actions button:first-child {
+  background: #2ecc71;
+  color: #fff;
+}
+
+.actions button:last-child {
+  background: #25d366;
+  color: #fff;
+}
+
+/* Print / PDF */
 @media print {
-  body * {
-    visibility: hidden;
+  body {
+    background: #fff;
   }
-
-  .invoice-box, .invoice-box * {
-    visibility: visible;
-  }
-
-  .invoice-box {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    background: #ffffff;
-    color: #000000;
-    padding: 20px;
-  }
-
-  button {
+  .actions {
     display: none;
   }
 }
