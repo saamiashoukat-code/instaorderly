@@ -3,68 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <title>Instagram Invoice Generator – InstaOrderly</title>
-<meta name="description" content="Free Instagram Invoice Generator for WhatsApp & COD sellers in Pakistan. Generate professional PDF invoices instantly.">
+<meta name="description" content="Free Instagram Invoice Generator for WhatsApp & COD sellers in Pakistan. Create professional invoices instantly.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-  font-family: Arial, sans-serif;
+  margin:0;
+  font-family:Arial, sans-serif;
   background:#0b1220;
   color:#e5e7eb;
-  margin:0;
 }
 .container{
   max-width:900px;
   margin:auto;
-  padding:30px 20px;
+  padding:30px;
 }
-h1,h2,h3{color:#22c55e}
-input,textarea,button{
+h1,h2,h3{color:#22c55e;}
+input,textarea{
   width:100%;
   padding:12px;
   margin:8px 0;
-  border-radius:6px;
+  border-radius:8px;
   border:none;
-  font-size:15px;
 }
-input,textarea{background:#fff;color:#000}
 button{
+  padding:14px;
+  width:100%;
   background:#22c55e;
   color:#000;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
-button:hover{opacity:.9}
-
-.products .row{
+.product-row{
   display:grid;
   grid-template-columns:2fr 1fr 1fr;
   gap:10px;
   margin-bottom:10px;
 }
-
 .invoice{
   display:none;
   background:#fff;
   color:#000;
   padding:20px;
-  margin-top:30px;
+  margin-top:20px;
 }
-
-.invoice table{
-  width:100%;
-  border-collapse:collapse;
-}
-.invoice th,.invoice td{
-  border:1px solid #ccc;
-  padding:8px;
-  text-align:left;
-}
-
 @media print{
-  body *{visibility:hidden}
-  .invoice,.invoice *{visibility:visible}
-  .invoice{position:absolute;left:0;top:0;width:100%}
+  body *{visibility:hidden;}
+  .invoice,.invoice *{visibility:visible;}
+  .invoice{position:absolute;top:0;left:0;width:100%;}
 }
 </style>
 </head>
@@ -81,22 +70,22 @@ button:hover{opacity:.9}
 <textarea id="customerAddress" placeholder="Delivery Address"></textarea>
 
 <h3>Products</h3>
-<div id="products" class="products"></div>
-
-<button type="button" onclick="addProduct()">+ Add Product</button>
+<div id="products"></div>
+<button onclick="addProduct()">+ Add Product</button>
 
 <input id="paymentMethod" placeholder="Payment Method (COD / Bank / EasyPaisa)">
 
-<button type="button" onclick="generateInvoice()">Generate Invoice</button>
+<br><br>
+<button onclick="generateInvoice()">Generate Invoice</button>
 
-<!-- INVOICE OUTPUT -->
-<div id="invoice" class="invoice">
+<!-- INVOICE -->
+<div class="invoice" id="invoice">
   <h2>Invoice</h2>
   <p><strong>Name:</strong> <span id="iName"></span></p>
   <p><strong>Phone:</strong> <span id="iPhone"></span></p>
   <p><strong>Address:</strong> <span id="iAddress"></span></p>
 
-  <table>
+  <table border="1" width="100%" cellpadding="8" cellspacing="0">
     <thead>
       <tr>
         <th>Product</th>
@@ -105,7 +94,7 @@ button:hover{opacity:.9}
         <th>Total</th>
       </tr>
     </thead>
-    <tbody id="invoiceItems"></tbody>
+    <tbody id="invoiceProducts"></tbody>
   </table>
 
   <h3>Total Amount: PKR <span id="grandTotal"></span></h3>
@@ -119,65 +108,50 @@ button:hover{opacity:.9}
 
 <script>
 function addProduct(){
-  const div = document.createElement("div");
-  div.className = "row";
-  div.innerHTML = `
+  const div=document.createElement("div");
+  div.className="product-row";
+  div.innerHTML=`
     <input placeholder="Product Name">
-    <input type="number" placeholder="Qty" value="1">
+    <input type="number" placeholder="Qty">
     <input type="number" placeholder="Price">
   `;
   document.getElementById("products").appendChild(div);
 }
 
-addProduct(); // first row auto
-
 function generateInvoice(){
-  const name = customerName.value;
-  const phone = customerPhone.value;
-  const address = customerAddress.value;
-  const payment = paymentMethod.value;
+  const name=document.getElementById("customerName").value;
+  const phone=document.getElementById("customerPhone").value;
+  const address=document.getElementById("customerAddress").value;
+  const payment=document.getElementById("paymentMethod").value;
 
-  if(!name || !phone){
-    alert("Please enter customer details");
-    return;
-  }
+  document.getElementById("iName").innerText=name;
+  document.getElementById("iPhone").innerText=phone;
+  document.getElementById("iAddress").innerText=address;
+  document.getElementById("iPayment").innerText=payment;
 
-  iName.innerText = name;
-  iPhone.innerText = phone;
-  iAddress.innerText = address;
-  iPayment.innerText = payment;
+  let total=0;
+  const rows=document.querySelectorAll(".product-row");
+  const tbody=document.getElementById("invoiceProducts");
+  tbody.innerHTML="";
 
-  invoiceItems.innerHTML = "";
-  let total = 0;
-
-  document.querySelectorAll(".products .row").forEach(row=>{
-    const p = row.children[0].value;
-    const q = Number(row.children[1].value);
-    const pr = Number(row.children[2].value);
-    if(p && q && pr){
-      const t = q*pr;
-      total += t;
-      invoiceItems.innerHTML += `
-        <tr>
-          <td>${p}</td>
-          <td>${q}</td>
-          <td>${pr}</td>
-          <td>${t}</td>
-        </tr>
-      `;
-    }
+  rows.forEach(r=>{
+    const p=r.children[0].value;
+    const q=Number(r.children[1].value);
+    const pr=Number(r.children[2].value);
+    const t=q*pr;
+    total+=t;
+    tbody.innerHTML+=`<tr>
+      <td>${p}</td><td>${q}</td><td>${pr}</td><td>${t}</td>
+    </tr>`;
   });
 
-  grandTotal.innerText = total;
-  invoice.style.display = "block";
-  invoice.scrollIntoView({behavior:"smooth"});
+  document.getElementById("grandTotal").innerText=total;
+  document.getElementById("invoice").style.display="block";
 }
 
 function shareWhatsApp(){
-  const text = encodeURIComponent(
-    Invoice for ${iName.innerText}\nTotal PKR ${grandTotal.innerText}
-  );
-  window.open(https://wa.me/?text=${text},"_blank");
+  const text=Invoice Total: PKR ${document.getElementById("grandTotal").innerText};
+  window.open(https://wa.me/?text=${encodeURIComponent(text)});
 }
 </script>
 
