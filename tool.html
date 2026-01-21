@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Instagram Invoice Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  background:#0b1220;
+  color:#e5e7eb;
+  font-family:Arial, sans-serif;
+  margin:0;
+}
+.container{
+  max-width:800px;
+  margin:auto;
+  padding:20px;
+}
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:6px;
+  border:none;
+}
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  background:#22c55e;
+  border:none;
+  border-radius:6px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.product{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:10px;
+}
+.invoice{
+  display:none;
+  background:#fff;
+  color:#000;
+  padding:20px;
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Instagram Invoice Generator</h1>
+
+<h3>Customer</h3>
+<input id="name" placeholder="Customer Name">
+<input id="phone" placeholder="Phone Number">
+<input id="address" placeholder="Delivery Address">
+
+<h3>Products</h3>
+<div id="products"></div>
+
+<button type="button" onclick="addProduct()">+ Add Product</button>
+
+<input id="payment" placeholder="Payment Method">
+
+<button type="button" onclick="generateInvoice()">Generate Invoice</button>
+
+<div class="invoice" id="invoice">
+  <h2>Invoice</h2>
+  <div id="invoiceData"></div>
+  <h3>Total: PKR <span id="total"></span></h3>
+
+  <button type="button" onclick="window.print()">Download PDF</button>
+</div>
+
+</div>
+
+<script>
+function addProduct(){
+  console.log("Add Product clicked");
+  const div = document.createElement("div");
+  div.className = "product";
+  div.innerHTML = `
+    <input placeholder="Product Name">
+    <input type="number" placeholder="Qty">
+    <input type="number" placeholder="Price">
+  `;
+  document.getElementById("products").appendChild(div);
+}
+
+function generateInvoice(){
+  console.log("Generate Invoice clicked");
+
+  const products = document.querySelectorAll(".product");
+  let total = 0;
+  let html = "";
+
+  products.forEach(p=>{
+    const name = p.children[0].value;
+    const qty = Number(p.children[1].value);
+    const price = Number(p.children[2].value);
+    const t = qty * price;
+    total += t;
+    html += <p>${name} — ${qty} × ${price} = ${t}</p>;
+  });
+
+  document.getElementById("invoiceData").innerHTML = html;
+  document.getElementById("total").innerText = total;
+  document.getElementById("invoice").style.display = "block";
+}
+</script>
+
+</body>
+</html>
