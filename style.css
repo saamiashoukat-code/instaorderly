@@ -1,45 +1,54 @@
-/* RESET */
+/* ===== GLOBAL RESET ===== */
 * {
-  box-sizing: border-box;
-}
-
-/* BODY */
-body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #ffffff;
+  padding: 0;
+  box-sizing: border-box;
+  transform: none !important;
 }
 
-/* CONTAINER */
+/* ===== HTML / BODY FIX ===== */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  zoom: 1;
+  background: #0f172a;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== MAIN CONTAINER ===== */
 .container {
   max-width: 720px;
-  margin: auto;
+  margin: 0 auto;
   padding: 20px;
+  position: relative;
+  z-index: 1;
 }
 
-/* HEADINGS */
+/* ===== HEADINGS ===== */
 h1 {
   color: #22c55e;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
-
 h2 {
-  margin-top: 25px;
+  margin-top: 20px;
+  margin-bottom: 6px;
 }
 
-/* INPUTS */
-input,
-textarea {
+/* ===== INPUTS ===== */
+input, textarea {
   width: 100%;
   padding: 12px;
   margin: 8px 0;
   border-radius: 8px;
   border: none;
-  font-size: 15px;
+  font-size: 16px;
 }
 
-/* BUTTONS — 100% CLICKABLE */
+/* ===== BUTTONS (100% CLICKABLE) ===== */
 button {
   width: 100%;
   padding: 14px;
@@ -52,24 +61,24 @@ button {
   border-radius: 10px;
   cursor: pointer;
 
-  /* ✅ CLICK SAFETY */
+  /* CRITICAL */
+  pointer-events: auto !important;
   position: relative;
-  z-index: 1;
-  pointer-events: auto;
+  z-index: 10;
 }
 
 button:active {
   transform: scale(0.98);
 }
 
-/* PRODUCTS */
+/* ===== PRODUCT ROW ===== */
 .product-row {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   gap: 8px;
 }
 
-/* INVOICE */
+/* ===== INVOICE ===== */
 #invoice {
   display: none;
   margin-top: 30px;
@@ -79,15 +88,14 @@ button:active {
   border-radius: 12px;
 }
 
-/* TABLE */
+/* ===== TABLE ===== */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
 
-th,
-td {
+th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -97,7 +105,7 @@ th {
   background: #f1f5f9;
 }
 
-/* MOBILE */
+/* ===== MOBILE ===== */
 @media (max-width: 600px) {
   .product-row {
     grid-template-columns: 1fr;
