@@ -131,6 +131,7 @@ Total: Rs <span id="prevTotal"></span>
   <!-- JS -->
   <script>
 function generateInvoice() {
+  let totalAmount = 0;
   // 1. Customer details
   const name = document.getElementById("customerName").value;
   const contact = document.getElementById("customerContact").value;
@@ -147,11 +148,14 @@ function generateInvoice() {
   const previewProducts = document.getElementById("prevProducts");
   previewProducts.innerHTML = "";
 
-  document.querySelectorAll("#productTable tr").forEach(row => {
+ document.querySelectorAll("#productTable tr").forEach(row => {
+  if (!row.children[0]) return;
+   
     const product = row.children[0].querySelector("input").value;
     const qty = row.children[1].querySelector("input").value;
     const price = row.children[2].querySelector("input").value;
-    const total = row.children[3].innerText;
+    const total = const total = parseFloat(row.children[3].innerText) || 0;
+totalAmount += total;
 
     const line = document.createElement("p");
     line.innerText = ${product} — ${qty} x ${price} = Rs ${total};
