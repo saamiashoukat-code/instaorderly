@@ -1,100 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Instagram Invoice Generator | InstaOrderly</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Free Instagram Invoice Generator for online sellers in Pakistan. Create professional invoices for Instagram & WhatsApp orders instantly.">
-    <meta name="keywords" content="Instagram invoice generator, WhatsApp invoice generator, free invoice generator Pakistan, online seller invoice, COD invoice">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Invoice Generator | Free Invoice Tool for Online Sellers</title>
 
-    <!-- CSS FILE -->
-    <link rel="stylesheet" href="style.css">
+<meta name="description" content="Create professional Instagram & WhatsApp invoices instantly. Multi-product invoice generator with automatic totals. Free tool for online sellers in Pakistan.">
+<meta name="keywords" content="instagram invoice generator, whatsapp invoice generator, free invoice tool pakistan, online seller invoice, cod invoice">
+<meta name="author" content="InstaOrderly">
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:linear-gradient(135deg,#0b132b,#1c2541);
+    color:#fff;
+}
+nav{
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+nav a{
+    color:#4ade80;
+    text-decoration:none;
+    margin-left:15px;
+    font-weight:600;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:30px 20px;
+}
+h1{
+    color:#4ade80;
+    margin-bottom:10px;
+}
+input,select,button,textarea{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:8px;
+    border:none;
+    font-size:14px;
+}
+button{
+    background:#22c55e;
+    color:#000;
+    font-weight:700;
+    cursor:pointer;
+}
+.product-row{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr auto;
+    gap:10px;
+    margin-bottom:10px;
+}
+.product-row button{
+    background:#ef4444;
+    color:#fff;
+}
+.total-box{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+}
+.invoice-box{
+    background:#0f172a;
+    padding:20px;
+    border-radius:10px;
+    margin-top:25px;
+    display:none;
+}
+.whatsapp-btn{
+    background:#25D366;
+    margin-top:15px;
+}
+@media(max-width:768px){
+    .product-row{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header class="top-header">
-    <a href="index.html" class="logo">InstaOrderly</a>
-    <nav>
+<nav>
+    <strong>InstaOrderly</strong>
+    <div>
         <a href="index.html">Home</a>
-        <a href="instagram-invoice-generator.html" class="active">Tool</a>
+        <a href="#tool">Tool</a>
         <a href="pricing.html">Pricing</a>
         <a href="contact.html">Contact</a>
-    </nav>
-</header>
+    </div>
+</nav>
 
-<main class="container">
+<div class="container" id="tool">
 
-    <!-- TOOL UI -->
-    <section class="tool-box">
-        <h1>Instagram Invoice Generator</h1>
-        <p>Create professional invoices for Instagram & WhatsApp orders in seconds.</p>
+<h1>Instagram Invoice Generator</h1>
+<p>Create professional invoices for Instagram & WhatsApp orders in seconds.</p>
 
-        <form id="invoiceForm">
-            <input type="text" placeholder="Customer Name" required>
-            <input type="text" placeholder="Product Name" required>
-            <input type="number" placeholder="Price (PKR)" required>
-            <input type="number" placeholder="Quantity" required>
-            <input type="text" placeholder="Payment Method (COD / Bank / EasyPaisa)">
-            <button type="submit">Generate Invoice</button>
-        </form>
-    </section>
+<h3>Customer Details</h3>
+<input id="customerName" placeholder="Customer Name">
+<input id="customerPhone" placeholder="Contact Number">
+<textarea id="customerAddress" placeholder="Delivery Address"></textarea>
 
-    <!-- SEO CONTENT START -->
-    <section class="seo-content">
+<h3>Products</h3>
 
-        <h2>Free Instagram Invoice Generator for Online Sellers</h2>
+<div id="products"></div>
 
-        <p>
-            InstaOrderly is a free Instagram invoice generator designed for small businesses,
-            home-based sellers, and online stores. If you sell products through Instagram DMs
-            or WhatsApp, this tool helps you create professional invoices in seconds.
-        </p>
+<button onclick="addProduct()">+ Add Product</button>
 
-        <p>
-            Our invoice generator for Instagram sellers allows you to generate clean,
-            easy-to-share invoices without using Excel or complicated software.
-            You can instantly share invoices on WhatsApp or download them as PDF files.
-        </p>
+<select id="paymentMethod">
+    <option value="">Select Payment Method</option>
+    <option>Cash on Delivery (COD)</option>
+    <option>Bank Transfer</option>
+    <option>EasyPaisa / JazzCash</option>
+</select>
 
-        <h3>Who Can Use This Invoice Generator?</h3>
+<div class="total-box">
+    Total Amount: PKR <span id="grandTotal">0</span>
+</div>
 
-        <p>
-            This tool is perfect for Instagram sellers, WhatsApp business owners,
-            cash on delivery (COD) sellers, and small businesses in Pakistan.
-            Whether you sell clothing, cosmetics, accessories, or digital products,
-            InstaOrderly helps you look professional.
-        </p>
+<button onclick="generateInvoice()">Generate Invoice</button>
 
-        <h3>Why Use InstaOrderly?</h3>
+<div class="invoice-box" id="invoiceBox"></div>
 
-        <ul>
-            <li>Free invoice generator for Instagram sellers</li>
-            <li>WhatsApp invoice sharing</li>
-            <li>PDF invoice download</li>
-            <li>Cash on Delivery (COD) invoice support</li>
-            <li>Designed for Pakistan-based online businesses</li>
-            <li>No login required</li>
-        </ul>
+<button class="whatsapp-btn" onclick="shareWhatsApp()">Share on WhatsApp</button>
 
-        <h3>Best Invoice Generator in Pakistan</h3>
+</div>
 
-        <p>
-            InstaOrderly is built specifically for the Pakistani market,
-            supporting local selling methods like WhatsApp orders and COD.
-            If you are an online seller looking to save time and appear more professional,
-            this free Instagram invoice generator is the perfect solution.
-        </p>
+<script>
+function addProduct(){
+    const div=document.createElement("div");
+    div.className="product-row";
+    div.innerHTML=`
+        <input placeholder="Product Name">
+        <input type="number" placeholder="Price">
+        <input type="number" placeholder="Qty">
+        <input type="number" placeholder="Subtotal" readonly>
+        <button onclick="this.parentElement.remove();calculateTotal()">X</button>
+    `;
+    div.querySelectorAll("input")[1].oninput=()=>calcRow(div);
+    div.querySelectorAll("input")[2].oninput=()=>calcRow(div);
+    document.getElementById("products").appendChild(div);
+}
 
-    </section>
-    <!-- SEO CONTENT END -->
+function calcRow(row){
+    const price=row.children[1].value||0;
+    const qty=row.children[2].value||0;
+    row.children[3].value=price*qty;
+    calculateTotal();
+}
 
-</main>
+function calculateTotal(){
+    let total=0;
+    document.querySelectorAll(".product-row").forEach(r=>{
+        total+=Number(r.children[3].value||0);
+    });
+    document.getElementById("grandTotal").innerText=total;
+}
 
-<footer class="footer">
-    <p>© 2026 InstaOrderly. All rights reserved.</p>
-</footer>
+function generateInvoice(){
+    const name=customerName.value;
+    const phone=customerPhone.value;
+    const address=customerAddress.value;
+    const payment=paymentMethod.value;
+
+    let items="";
+    document.querySelectorAll(".product-row").forEach(r=>{
+        items+=${r.children[0].value} x ${r.children[2].value} = PKR ${r.children[3].value}<br>;
+    });
+
+    invoiceBox.innerHTML=`
+        <h3>Invoice</h3>
+        <p><b>Name:</b> ${name}</p>
+        <p><b>Phone:</b> ${phone}</p>
+        <p><b>Address:</b> ${address}</p>
+        <p>${items}</p>
+        <p><b>Payment:</b> ${payment}</p>
+        <p><b>Total:</b> PKR ${grandTotal.innerText}</p>
+    `;
+    invoiceBox.style.display="block";
+}
+
+function shareWhatsApp(){
+    const text=invoiceBox.innerText;
+    window.open(https://wa.me/?text=${encodeURIComponent(text)});
+}
+
+addProduct();
+</script>
 
 </body>
 </html>
