@@ -74,9 +74,37 @@ Trusted by Instagram sellers & home businesses across Pakistan 🇵🇰
   <tbody id="productTable"></tbody>
 </table>
 
-<button onclick="addRow()" style="margin-top:12px">
-  + Add Product
-</button>
+function addRow() {
+    const table = document.getElementById("productTable");
+
+    const row = document.createElement("tr");
+
+  function addRow() {
+  const table = document.getElementById("productTable");
+  const row = document.createElement("tr");
+
+  row.innerHTML = `
+    <td><input type="text" placeholder="Product name"></td>
+    <td><input type="number" value="1" min="1" oninput="calculateRow(this)"></td>
+    <td><input type="number" value="0" min="0" oninput="calculateRow(this)"></td>
+    <td>0</td>
+    <td>
+      <button onclick="this.closest('tr').remove()">✕</button>
+    </td>
+  `;
+
+  table.appendChild(row);
+}
+    `;
+function calculateRow(input) {
+  const row = input.closest("tr");
+
+  const qty = parseFloat(row.children[1].querySelector("input").value) || 0;
+  const price = parseFloat(row.children[2].querySelector("input").value) || 0;
+
+  const total = qty * price;
+  row.children[3].innerText = total;
+}
 
 <h3 style="text-align:right;margin-top:20px">
   Grand Total: Rs <span id="grandTotal">0</span>
@@ -94,9 +122,9 @@ Payment Method
   <option value="JazzCash">JazzCash</option>
 </select>
 
-    <button onclick="generateInvoice()">Generate Invoice</button>
-    <button onclick="downloadPDF()">Download PDF</button>
-    <button onclick="shareWhatsApp()">Share on WhatsApp</button>
+    <button type="button" onclick="generateInvoice()">Generate Invoice</button>
+  <button type="button" onclick="generateInvoice(); downloadPDF()">Download PDF</button>
+<button type="button" onclick="generateInvoice(); shareWhatsApp()">Share on WhatsApp</button>
 
     <hr />
 <!-- INVOICE PREVIEW -->
@@ -132,6 +160,7 @@ Total: Rs <span id="prevTotal"></span>
   <script>
 function generateInvoice() {
   let totalAmount = 0;
+  
   // 1. Customer details
   const name = document.getElementById("customerName").value;
   const contact = document.getElementById("customerContact").value;
@@ -154,7 +183,7 @@ function generateInvoice() {
     const product = row.children[0].querySelector("input").value;
     const qty = row.children[1].querySelector("input").value;
     const price = row.children[2].querySelector("input").value;
-    const total = const total = parseFloat(row.children[3].innerText) || 0;
+    const total = parseFloat(row.children[3].innerText) || 0;
 totalAmount += total;
 
     const line = document.createElement("p");
@@ -168,6 +197,9 @@ totalAmount += total;
   // 5. Show preview
   document.getElementById("invoicePreview").style.display = "block";
 }
+  // 6. Scroll into view
+    document.getElementById("invoicePreview").scrollIntoView({ behavior: "smooth" });
+    
     function shareWhatsApp() {
   const name = document.getElementById("prevName").innerText;
   const contact = document.getElementById("prevContact").innerText;
