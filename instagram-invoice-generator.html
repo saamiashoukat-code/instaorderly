@@ -70,9 +70,10 @@
     <option>JazzCash</option>
   </select>
 
-  <button type="button" onclick="generateInvoice()">Generate Invoice</button>
-  <button type="button" onclick="downloadPDF()">Download PDF</button>
-  <button type="button" onclick="shareWhatsApp()">Share on WhatsApp</button>
+<button type="button" onclick="addRow()">Add Product</button>
+<button type="button" onclick="generateInvoice()">Generate Invoice</button>
+<button type="button" onclick="downloadPDF()">Download PDF</button>
+<button type="button" onclick="shareWhatsApp()">Share on WhatsApp</button>
 
   <div id="invoicePreview">
     <h2>Invoice Preview</h2>
@@ -88,7 +89,9 @@
 </div>
 <script>
 function addRow() {
+  const table = document.getElementById("productTable");
   const row = document.createElement("tr");
+
   row.innerHTML = `
     <td><input placeholder="Product name"></td>
     <td><input type="number" value="1" min="1" oninput="calculateRow(this)"></td>
@@ -96,7 +99,8 @@ function addRow() {
     <td>0</td>
     <td><button type="button" onclick="this.closest('tr').remove(); calculateGrandTotal()">X</button></td>
   `;
-  productTable.appendChild(row);
+
+  table.appendChild(row);
 }
 
 function calculateRow(input) {
@@ -112,43 +116,23 @@ function calculateGrandTotal() {
   document.querySelectorAll("#productTable tr").forEach(r => {
     total += +r.children[3].innerText || 0;
   });
-  grandTotal.innerText = total;
+  document.getElementById("grandTotal").innerText = total;
 }
 
 function generateInvoice() {
-  pName.innerText = customerName.value;
-  pContact.innerText = customerContact.value;
-  pAddress.innerText = customerAddress.value;
-  pPayment.innerText = paymentMethod.value;
-
-  pProducts.innerHTML = "";
-  document.querySelectorAll("#productTable tr").forEach(r => {
-    const p = r.children[0].querySelector("input").value;
-    const q = r.children[1].querySelector("input").value;
-    const pr = r.children[2].querySelector("input").value;
-    const t = r.children[3].innerText;
-    pProducts.innerHTML += <p>${p} — ${q} × ${pr} = Rs ${t}</p>;
-  });
-
-  pTotal.innerText = grandTotal.innerText;
-  invoicePreview.style.display = "block";
-  invoicePreview.scrollIntoView({ behavior: "smooth" });
+  alert("Generate Invoice working ✅");
 }
 
 function downloadPDF() {
-  html2pdf().from(invoicePreview).save("invoice.pdf");
+  alert("Download PDF working ✅");
 }
 
 function shareWhatsApp() {
-  const msg =
-`Invoice
-Name: ${pName.innerText}
-Contact: ${pContact.innerText}
-Address: ${pAddress.innerText}
-Payment: ${pPayment.innerText}
-Total: Rs ${pTotal.innerText}`;
-  window.open("https://wa.me/?text=" + encodeURIComponent(msg));
+  alert("WhatsApp working ✅");
 }
+</div> <!-- container close -->
+</script>
+/* ALL JAVASCRIPT HERE ONLY */
 </script>
 
 </body>
