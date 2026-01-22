@@ -1,56 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
 
   <title>Free Instagram Invoice Generator for Pakistan | InstaOrderly</title>
 
-  <meta name="description"
-    content="Free Instagram Invoice Generator for Pakistan. Create professional invoices for Instagram & WhatsApp orders. Download PDF instantly.">
-
-  <meta name="keywords"
-    content="Instagram invoice generator, invoice generator Pakistan, WhatsApp invoice, Instagram seller invoice">
-
-  <link rel="canonical"
-    href="https://instaorderly.com/instagram-invoice-generator.html">
+  <!-- SEO -->
+  <meta name="description" content="Free Instagram Invoice Generator for Pakistan. Create professional invoices for Instagram & WhatsApp orders. Download PDF instantly." />
+  <meta name="keywords" content="Instagram invoice generator, invoice generator Pakistan, WhatsApp invoice" />
+  <link rel="canonical" href="https://instaorderly.com/instagram-invoice-generator.html" />
 
   <!-- FIXED VIEWPORT (NO ZOOM BUG) -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-  
+  <link rel="stylesheet" href="style.css" />
+
   <!-- PDF LIBRARY -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
-  <body>
+<body>
 
 <div class="container">
+
   <h1>Instagram Invoice Generator for Pakistan</h1>
   <p>Create clean, professional invoices for Instagram & WhatsApp orders.</p>
 
-  <h3>Customer Details</h3>
+  <hr>
+
+  <!-- CUSTOMER DETAILS -->
+  <h2>Customer Details</h2>
 
   <label>Customer Name</label>
-  <input id="customerName">
+  <input id="customerName" type="text">
 
-  <label>Contact</label>
-  <input id="customerContact">
+  <label>Contact Number</label>
+  <input id="customerContact" type="text">
 
   <label>Delivery Address</label>
-  <input id="customerAddress">
+  <input id="customerAddress" type="text">
 
-  <h3>Products</h3>
+  <!-- PRODUCTS -->
+  <h2>Products</h2>
 
-  <table>
+  <table width="100%" border="1" cellpadding="6">
     <thead>
       <tr>
         <th>Product</th>
         <th>Qty</th>
         <th>Price</th>
         <th>Total</th>
-        <th></th>
+        <th>X</th>
       </tr>
     </thead>
     <tbody id="productTable"></tbody>
@@ -58,10 +59,9 @@
 
   <button type="button" onclick="addRow()">+ Add Product</button>
 
-  <h3 style="text-align:right">
-    Grand Total: Rs <span id="grandTotal">0</span>
-  </h3>
+  <h3 style="text-align:right">Grand Total: Rs <span id="grandTotal">0</span></h3>
 
+  <!-- PAYMENT -->
   <label>Payment Method</label>
   <select id="paymentMethod">
     <option>Cash on Delivery</option>
@@ -70,34 +70,45 @@
     <option>JazzCash</option>
   </select>
 
-<button type="button" onclick="addRow()">Add Product</button>
-<button type="button" onclick="generateInvoice()">Generate Invoice</button>
-<button type="button" onclick="downloadPDF()">Download PDF</button>
-<button type="button" onclick="shareWhatsApp()">Share on WhatsApp</button>
+  <br><br>
 
-  <div id="invoicePreview">
-    <h2>Invoice Preview</h2>
+  <!-- ACTION BUTTONS -->
+  <button type="button" onclick="generateInvoice()">Generate Invoice</button>
+  <button type="button" onclick="downloadPDF()">Download PDF</button>
+  <button type="button" onclick="shareWhatsApp()">Share on WhatsApp</button>
+
+  <hr>
+
+  <!-- INVOICE PREVIEW -->
+  <div id="invoicePreview" style="display:none; padding:15px; border:1px solid #ccc;">
+
+    <h3>Invoice</h3>
     <p><b>Name:</b> <span id="pName"></span></p>
     <p><b>Contact:</b> <span id="pContact"></span></p>
     <p><b>Address:</b> <span id="pAddress"></span></p>
     <p><b>Payment:</b> <span id="pPayment"></span></p>
-    <hr>
+
     <div id="pProducts"></div>
+
     <h3>Total: Rs <span id="pTotal"></span></h3>
   </div>
 
 </div>
+
+<!-- ================= JAVASCRIPT (ONLY ONE SCRIPT) ================= -->
 <script>
+console.log("JS Loaded ✅");
+
 function addRow() {
   const table = document.getElementById("productTable");
   const row = document.createElement("tr");
 
   row.innerHTML = `
-    <td><input placeholder="Product name"></td>
+    <td><input type="text"></td>
     <td><input type="number" value="1" min="1" oninput="calculateRow(this)"></td>
     <td><input type="number" value="0" min="0" oninput="calculateRow(this)"></td>
     <td>0</td>
-    <td><button type="button" onclick="this.closest('tr').remove(); calculateGrandTotal()">X</button></td>
+    <td><button type="button" onclick="removeRow(this)">X</button></td>
   `;
 
   table.appendChild(row);
@@ -105,34 +116,65 @@ function addRow() {
 
 function calculateRow(input) {
   const row = input.closest("tr");
-  const qty = +row.children[1].querySelector("input").value || 0;
-  const price = +row.children[2].querySelector("input").value || 0;
+  const qty = parseFloat(row.children[1].querySelector("input").value) || 0;
+  const price = parseFloat(row.children[2].querySelector("input").value) || 0;
   row.children[3].innerText = qty * price;
+  calculateGrandTotal();
+}
+
+function removeRow(btn) {
+  btn.closest("tr").remove();
   calculateGrandTotal();
 }
 
 function calculateGrandTotal() {
   let total = 0;
-  document.querySelectorAll("#productTable tr").forEach(r => {
-    total += +r.children[3].innerText || 0;
+  document.querySelectorAll("#productTable tr").forEach(row => {
+    total += parseFloat(row.children[3].innerText) || 0;
   });
   document.getElementById("grandTotal").innerText = total;
 }
 
 function generateInvoice() {
-  alert("Generate Invoice working ✅");
+  document.getElementById("pName").innerText = customerName.value;
+  document.getElementById("pContact").innerText = customerContact.value;
+  document.getElementById("pAddress").innerText = customerAddress.value;
+  document.getElementById("pPayment").innerText = paymentMethod.value;
+
+  const box = document.getElementById("pProducts");
+  box.innerHTML = "";
+
+  document.querySelectorAll("#productTable tr").forEach(row => {
+    const p = document.createElement("p");
+    p.innerText =
+      row.children[0].querySelector("input").value +
+      " — " +
+      row.children[1].querySelector("input").value +
+      " x " +
+      row.children[2].querySelector("input").value +
+      " = Rs " +
+      row.children[3].innerText;
+    box.appendChild(p);
+  });
+
+  document.getElementById("pTotal").innerText =
+    document.getElementById("grandTotal").innerText;
+
+  document.getElementById("invoicePreview").style.display = "block";
 }
 
 function downloadPDF() {
-  alert("Download PDF working ✅");
+  html2pdf().from(document.getElementById("invoicePreview")).save("invoice.pdf");
 }
 
 function shareWhatsApp() {
-  alert("WhatsApp working ✅");
+  const text =
+    "Invoice\\n" +
+    "Name: " + pName.innerText + "\\n" +
+    "Total: Rs " + pTotal.innerText;
+
+  window.open("https://wa.me/?text=" + encodeURIComponent(text));
 }
-</div> <!-- container close -->
-</script>
-/* ALL JAVASCRIPT HERE ONLY */
 </script>
 
 </body>
