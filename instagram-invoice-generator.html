@@ -163,9 +163,33 @@ function generateInvoice() {
   document.getElementById("invoicePreview").style.display = "block";
 }
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
 function downloadPDF() {
-  html2pdf().from(document.getElementById("invoicePreview")).save("invoice.pdf");
+    const element = document.getElementById("invoicePreview");
+
+    element.style.display = "block";
+    element.style.background = "#ffffff";
+    element.scrollIntoView();
+
+    setTimeout(() => {
+        html2pdf().from(element).set({
+            margin: 10,
+            filename: 'invoice.pdf',
+            html2canvas: {
+                scale: 2,
+                useCORS: true
+            },
+            jsPDF: {
+                unit: 'mm',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        }).save();
+    }, 300);
 }
+</script>
 
 function shareWhatsApp() {
   const text =
